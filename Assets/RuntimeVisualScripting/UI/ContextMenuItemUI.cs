@@ -23,7 +23,7 @@ namespace RuntimeVisualScripting.UI
 
         public void OnClicked()
         {
-            contextMenu.OnItemClicked?.Invoke(this.index);
+            //contextMenu.OnItemClicked?.Invoke(this.index);
         }
     }
 }
