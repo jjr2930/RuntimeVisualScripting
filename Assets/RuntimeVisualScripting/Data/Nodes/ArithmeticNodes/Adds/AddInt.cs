@@ -10,6 +10,8 @@ namespace RuntimeVisualScripting.Data
         {
             name = "Add Int";
         }
+
+        public override string DisplayName => "Add Int";
         public override void Calculate()
         {
             output.Value = inputA.Value + inputB.Value;

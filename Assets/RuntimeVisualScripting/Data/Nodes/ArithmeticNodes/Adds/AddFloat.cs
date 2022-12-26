@@ -6,6 +6,7 @@ namespace RuntimeVisualScripting.Data
 {
     public class AddFloat : BinaryOperator<float,float,float>
     {
+        public override string DisplayName => "Add Float";
         public override void Calculate()
         {
             output.Value = inputA.Value + inputB.Value;

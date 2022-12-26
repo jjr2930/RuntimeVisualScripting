@@ -5,7 +5,7 @@ using TMPro;
 
 namespace RuntimeVisualScripting.UI
 {
-    public class OutputVariableUI : MonoBehaviour
+    public class OutputVariableUI : VariableUI
     {
         [SerializeField]
         TextMeshProUGUI nameText = null;

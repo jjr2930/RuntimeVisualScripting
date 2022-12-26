@@ -12,9 +12,12 @@ namespace RuntimeVisualScripting.UI
     {
         [SerializeField]
         NodeUI parentNodeUI = null;
-        public NodeUI ParentNodeUI { get { return parentNodeUI; } }
 
+
+        public NodeUI ParentNodeUI { get { return parentNodeUI; } }
+        
         VisualScriptUI visualScriptUI = null;
+
         public void Start()
         {
             visualScriptUI = GetComponentInParent<VisualScriptUI>();
@@ -43,7 +46,13 @@ namespace RuntimeVisualScripting.UI
             for (int i = 0; i < results.Count; i++)
             {
                 var findLinkUI = results[i].gameObject.GetComponent<LinkUI>();
-                if (this == findLinkUI || null == findLinkUI)
+                bool isMine = this == findLinkUI;
+                bool isNoLink = null == findLinkUI;
+
+                if (isMine || isNoLink)
+                    continue;
+
+                if (false == CanConnection(findLinkUI))
                     continue;
 
                 //found...
@@ -69,6 +78,11 @@ namespace RuntimeVisualScripting.UI
         {
             a.RemoveTargetLink(b);
             b.RemoveTargetLink(a);
+        }
+
+        public virtual bool CanConnection(LinkUI checkingTarget)
+        {
+            return true;
         }
     }
 }

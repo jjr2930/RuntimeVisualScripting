@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RuntimeVisualScripting.Data
 {
-    public class Variable<T> : Variable
+    public abstract class Variable<T> : Variable
     {
         protected T value;
         public virtual T Value 

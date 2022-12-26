@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,8 @@ namespace RuntimeVisualScripting.Data
             }
             set => base.value = value; 
         }
+
+        public override Type ValueType { get => typeof(T); }
 
         public void AddLinkOneWay(InputVariable<T> newNode)
         {

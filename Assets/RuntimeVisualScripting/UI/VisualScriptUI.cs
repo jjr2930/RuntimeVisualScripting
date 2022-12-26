@@ -22,13 +22,41 @@ namespace RuntimeVisualScripting.UI
         [SerializeField]
         LinkLineUI linkLineUIForCopy = null;
 
+        [SerializeField]
+        NodeSelectionMenuUI nodeSelectionMenuUI = null;
+
+        [SerializeField]
+        UnityEventNodeUI unityEventNodeForCopy = null;
+
+
         VisualScript visualScript = null;
 
-        public void AddNode(Node node, Vector2 screenPoint)
+        public void Start()
+        {
+            List<Node> testNodes = new List<Node>()
+            {
+                new AddInt(),
+                new AddString(),
+                new UnityEventNode(){ EventType = UnityEventType.Start },
+                new UnityEventNode(){ EventType = UnityEventType.Update }
+            };
+            nodeSelectionMenuUI.BuildNodes(testNodes);
+
+            //create start node
+            var startNode = Instantiate(unityEventNodeForCopy, nodeCanvasContent);
+            startNode.gameObject.SetActive(true);
+           
+
+            //create update node
+            var updateNode = Instantiate(unityEventNodeForCopy, nodeCanvasContent);
+            updateNode.gameObject.SetActive(true);
+        }
+
+        public void AddNode(Node node, Vector2 screenPosition)
         {
             var newNodeUI = Instantiate(nodeForCopy, nodeCanvasContent);
-            newNodeUI.transform.position = screenPoint;
             newNodeUI.Node = node;
+            newNodeUI.transform.position = screenPosition;
             newNodeUI.gameObject.SetActive(true);
         }
 

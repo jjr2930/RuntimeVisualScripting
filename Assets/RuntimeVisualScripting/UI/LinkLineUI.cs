@@ -2,7 +2,7 @@ using RuntimeVisualScripting.Data;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-//using Unity.Android.Types;
+using Unity.Android.Types;
 using UnityEditor.Graphs;
 using UnityEngine;
 
@@ -79,7 +79,7 @@ namespace RuntimeVisualScripting.UI
         {
             bool hasFrom = null != from;
             bool hasTo = null != to;
-            bool isMine = false;
+            bool isMine;
 
             //nothing to have
             if (false == (hasFrom || hasTo))

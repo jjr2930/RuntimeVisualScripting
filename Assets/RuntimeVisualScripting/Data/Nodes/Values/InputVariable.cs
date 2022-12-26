@@ -32,6 +32,11 @@ namespace RuntimeVisualScripting.Data
             }
         }
 
+        public override Type ValueType 
+        {
+            get { return typeof(T); }
+        }
+
         public void SetLinkOneWay(OutputVariable<T> link)
         {
             this.link = link;

@@ -5,14 +5,14 @@ using TMPro;
 
 namespace RuntimeVisualScripting.UI
 {
-    public class InputVariableUI : MonoBehaviour
+    public class InputVariableUI : VariableUI
     {
         [SerializeField]
         TextMeshProUGUI nameText = null;
 
-        public void SetName(string name)
+        public void SetName(string value)
         {
-            nameText.text = name;
+            nameText.text = value;
         }
     }
 }

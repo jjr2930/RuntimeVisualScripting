@@ -7,7 +7,7 @@ namespace RuntimeVisualScripting.UI
     public class SingleLinkUI : LinkUI
     {
         [SerializeField]
-        LinkUI targetLink = null;
+        protected LinkUI targetLink = null;
 
         [SerializeField]
         public override void SetOrAddTargetLink(LinkUI newLink)

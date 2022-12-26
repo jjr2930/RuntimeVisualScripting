@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,5 +14,7 @@ namespace RuntimeVisualScripting.Data
             get { return parent; }
             set { parent = value; }
         }
+
+        public abstract Type ValueType { get; }
     }
 }
