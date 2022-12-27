@@ -59,14 +59,19 @@ namespace RuntimeVisualScripting.Data
             links.Remove(oldLink);
         }
 
-        protected override void Deserialize(DeserializeStream stream)
+        public override void Deserialize(VisualScriptStream stream)
         {
             throw new System.NotImplementedException();
         }
 
-        protected override void Serialize(SerializeStream stream)
+        public override void Serialize(VisualScriptStream stream)
         {
-            throw new System.NotImplementedException();
+            List<long> ids = new List<long>();
+            for (int i = 0; i < links.Count; i++)
+            {
+                ids.Add(links[i].GUID);
+            }
+            stream.AddNewOutVariable(GUID, GetType(), ids);
         }
     }
 }

@@ -6,6 +6,7 @@ namespace RuntimeVisualScripting.UI
 {
     public class SingleLinkUI : LinkUI
     {
+        [Header("Single Link UI")]
         [SerializeField]
         protected LinkUI targetLink = null;
 

@@ -7,6 +7,7 @@ namespace RuntimeVisualScripting.UI
 {
     public class OutputVariableLinkUI : MultiLinkUI
     {
+        [Header("Ouput Variable link UI")]
         [SerializeField]
         VariableUI variableUI = null;
 

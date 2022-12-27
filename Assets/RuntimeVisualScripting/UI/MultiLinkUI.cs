@@ -6,6 +6,7 @@ namespace RuntimeVisualScripting.UI
 {
     public class MultiLinkUI : LinkUI
     {
+        [Header("Multi Link UI")]
         [SerializeField]
         List<LinkUI> targetLinks = new List<LinkUI>();
 

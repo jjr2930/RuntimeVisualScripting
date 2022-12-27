@@ -10,6 +10,7 @@ namespace RuntimeVisualScripting.UI
 {
     public abstract class LinkUI : MonoBehaviour , IBeginDragHandler, IDragHandler, IEndDragHandler
     {
+        [Header("Link UI")]
         [SerializeField]
         NodeUI parentNodeUI = null;
 

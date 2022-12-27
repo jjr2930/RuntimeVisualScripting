@@ -32,14 +32,18 @@ namespace RuntimeVisualScripting.Data
         {
             return new List<Variable>() { output };
         }
-        protected override void Deserialize(DeserializeStream stream)
+        public override void Deserialize(VisualScriptStream stream)
         {
             throw new System.NotImplementedException();
         }
 
-        protected override void Serialize(SerializeStream stream)
+        public override void Serialize(VisualScriptStream stream)
         {
-            throw new System.NotImplementedException();
+            stream.AddArithmeticNode(GUID, DisplayName, GetType(), Position,
+                new Variable[1] { input }, new Variable[1] { output });
+
+            input.Serialize(stream);
+            output.Serialize(stream);
         }
     }
 }

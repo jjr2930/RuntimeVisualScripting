@@ -1,3 +1,5 @@
+using RuntimeVisualScripting.Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +14,8 @@ namespace RuntimeVisualScripting.UI
         {
             base.OnDragEnd(obj, screenPoint);
             var nodeDragUI = obj.GetComponent<NodeSelectMenuListItemUI>();
-            nodeCanvas.AddNode(nodeDragUI.Node, screenPoint);
+            var node = Activator.CreateInstance(nodeDragUI.Node.GetType()) as Node;
+            nodeCanvas.AddNode(node, screenPoint);
         }
     }
 }

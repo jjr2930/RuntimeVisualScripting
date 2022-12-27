@@ -40,5 +40,15 @@ namespace RuntimeVisualScripting.Data
         {
             return new List<Variable>() { output };
         }
+
+        public override void Serialize(VisualScriptStream stream)
+        {
+            stream.AddArithmeticNode(GUID, DisplayName, this.GetType(), Position,
+                new Variable[2] { InputA, InputB }, new Variable[1] { output });
+
+            inputA.Serialize(stream);
+            inputB.Serialize(stream);
+            output.Serialize(stream);
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace RuntimeVisualScripting.UI
         public override void OnDrag(PointerEventData eventData)
         {
             base.OnDrag(eventData);
-            visualScriptUI.NodeMoved(this);
+            visualScriptUI.OnNodeMoved(this);
         }
     }
 }

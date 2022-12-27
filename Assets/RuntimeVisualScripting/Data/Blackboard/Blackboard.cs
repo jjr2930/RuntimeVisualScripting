@@ -18,12 +18,12 @@ namespace RuntimeVisualScripting.Data
             variables.Remove(oldVariable);
         }
 
-        protected override void Deserialize(DeserializeStream stream)
+        public override void Deserialize(VisualScriptStream stream)
         {
             throw new System.NotImplementedException();
         }
 
-        protected override void Serialize(SerializeStream stream)
+        public override void Serialize(VisualScriptStream stream)
         {
             throw new System.NotImplementedException();
         }

@@ -17,12 +17,7 @@ namespace RuntimeVisualScripting.Data
             output.Value = inputA.Value + inputB.Value;
         }
 
-        protected override void Deserialize(DeserializeStream stream)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override void Serialize(SerializeStream stream)
+        public override void Deserialize(VisualScriptStream stream)
         {
             throw new System.NotImplementedException();
         }

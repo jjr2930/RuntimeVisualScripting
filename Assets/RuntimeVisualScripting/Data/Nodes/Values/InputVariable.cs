@@ -59,14 +59,17 @@ namespace RuntimeVisualScripting.Data
             RemoveLinkOneWay();
         }
 
-        protected override void Deserialize(DeserializeStream stream)
+        public override void Deserialize(VisualScriptStream stream)
         {
             throw new System.NotImplementedException();
         }
 
-        protected override void Serialize(SerializeStream stream)
+        public override void Serialize(VisualScriptStream stream)
         {
-            throw new System.NotImplementedException();
+            bool hasLink = (link != null) ? true : false;
+            long linkId = (hasLink) ? link.GUID : 0;
+            string valueString = (null == value) ? "" : value.ToString();
+            stream.AddInputVariable(GUID, hasLink, linkId, GetType(), IsStatic, valueString);
         }
     }
 }

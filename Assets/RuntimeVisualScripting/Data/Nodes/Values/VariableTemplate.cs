@@ -15,12 +15,12 @@ namespace RuntimeVisualScripting.Data
             set { this.value = value; } 
         }
 
-        protected override void Deserialize(DeserializeStream stream)
+        public override void Deserialize(VisualScriptStream stream)
         {
             throw new NotImplementedException();
         }
 
-        protected override void Serialize(SerializeStream stream)
+        public override void Serialize(VisualScriptStream stream)
         {
             throw new NotImplementedException();
         }

@@ -7,6 +7,7 @@ namespace RuntimeVisualScripting.UI
 {
     public class InputVariableLinkUI : SingleLinkUI
     {
+        [Header("Input Variable Link UI")]
         [SerializeField]
         VariableUI variableUI = null;
 

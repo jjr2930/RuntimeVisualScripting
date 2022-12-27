@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace RuntimeVisualScripting.Data
 {
+    [Serializable]
     public class Log : ExecutionNode
     {
         InputVariable<string> input = new InputVariable<string>();
@@ -24,14 +26,17 @@ namespace RuntimeVisualScripting.Data
             Debug.Log(input.Value);
         }
 
-        protected override void Deserialize(DeserializeStream stream)
+        public override void Deserialize(VisualScriptStream stream)
         {
             throw new System.NotImplementedException();
         }
 
-        protected override void Serialize(SerializeStream stream)
+        public override void Serialize(VisualScriptStream stream)
         {
-            throw new System.NotImplementedException();
+            stream.AddExecuteNode(GUID, DisplayName, GetType(), Position, previousNodeId, nextNodeId,
+                new Variable[1] { input }, null);
+
+            input.Serialize(stream);
         }
     }
 }

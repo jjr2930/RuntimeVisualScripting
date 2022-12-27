@@ -12,14 +12,22 @@ namespace RuntimeVisualScripting.Data
 
     public class UnityEventNode : Node
     {
-        [SerializeField]
         protected UnityEventType eventType;
+        protected Node nextNode;
 
         public UnityEventType EventType 
         { 
             get => eventType; 
             set => eventType = value; 
         }
+
+        public Node NextNode
+        {
+            get => nextNode;
+            set => nextNode = value;
+        }
+
+        public override string DisplayName { get => eventType.ToString(); }
 
         public override List<Variable> GetInputVariables()
         {
@@ -31,12 +39,12 @@ namespace RuntimeVisualScripting.Data
             return null;
         }
 
-        protected override void Deserialize(DeserializeStream stream)
+        public override void Deserialize(VisualScriptStream stream)
         {
             throw new System.NotImplementedException();
         }
 
-        protected override void Serialize(SerializeStream stream)
+        public override void Serialize(VisualScriptStream stream)
         {
             throw new System.NotImplementedException();
         }

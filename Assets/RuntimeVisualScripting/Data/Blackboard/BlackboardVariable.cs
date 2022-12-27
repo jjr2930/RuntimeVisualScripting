@@ -10,12 +10,12 @@ namespace RuntimeVisualScripting.Data
 
         public string Name { get => name; set => name = value; }
 
-        protected override void Deserialize(DeserializeStream stream)
+        public override void Deserialize(VisualScriptStream stream)
         {
             throw new System.NotImplementedException();
         }
 
-        protected override void Serialize(SerializeStream stream)
+        public override void Serialize(VisualScriptStream stream)
         {
             throw new System.NotImplementedException();
         }

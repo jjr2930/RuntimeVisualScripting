@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Diagnostics;
 using UnityEngine.UIElements;
 
 namespace RuntimeVisualScripting.Data
 {
     public abstract class SerializableObject
     {
+        static Random random = new Random();
         protected string name = "";
         public string Name 
         { 
@@ -15,21 +16,23 @@ namespace RuntimeVisualScripting.Data
             set { name = value; } 
         }
 
-        protected long? id = 0;
+        protected long? id = null;
         public long GUID
         {
             get
             {
                 if(null == id)
                 {
-                    System.Random r = new System.Random((int)DateTime.Now.Ticks);
-                    id = r.Next(int.MaxValue);
+                    byte[] randomLong = new byte[sizeof(long)];
+                    random.NextBytes(randomLong);
+                    id = BitConverter.ToInt64(randomLong);
+                    UnityEngine.Debug.Log("id : " + id);
                 }
-                
+               
                 return id.Value;
             }
         }
-        protected abstract void Serialize(SerializeStream stream);
-        protected abstract void Deserialize(DeserializeStream stream);
+        public abstract void Serialize(VisualScriptStream stream);
+        public abstract void Deserialize(VisualScriptStream stream);
     }
 }

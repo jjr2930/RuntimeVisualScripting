@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace RuntimeVisualScripting.UI
 {
@@ -13,11 +14,16 @@ namespace RuntimeVisualScripting.UI
         RectTransform nodeCanvasContent = null;
 
         [SerializeField]
+        List<NodeUI> generatedNodeUIs = new List<NodeUI>();
+
+        [SerializeField]
         List<LinkLineUI> linkLines = new List<LinkLineUI>();
 
-        [Header("Reference for copy")]
         [SerializeField]
         NodeUI nodeForCopy = null;
+
+        [SerializeField]
+        NodeUI arithmeticUI = null; 
 
         [SerializeField]
         LinkLineUI linkLineUIForCopy = null;
@@ -28,8 +34,20 @@ namespace RuntimeVisualScripting.UI
         [SerializeField]
         UnityEventNodeUI unityEventNodeForCopy = null;
 
+        VisualScript visualScript = new VisualScript();
 
-        VisualScript visualScript = null;
+        public VisualScript VisualScript
+        {
+            get
+            {
+                return visualScript;
+            }
+
+            set
+            {
+                visualScript = value;
+            }
+        }
 
         public void Start()
         {
@@ -37,27 +55,36 @@ namespace RuntimeVisualScripting.UI
             {
                 new AddInt(),
                 new AddString(),
-                new UnityEventNode(){ EventType = UnityEventType.Start },
-                new UnityEventNode(){ EventType = UnityEventType.Update }
             };
             nodeSelectionMenuUI.BuildNodes(testNodes);
 
             //create start node
             var startNode = Instantiate(unityEventNodeForCopy, nodeCanvasContent);
             startNode.gameObject.SetActive(true);
-           
+            startNode.Node = new UnityEventNode() { EventType = UnityEventType.Start };
 
             //create update node
             var updateNode = Instantiate(unityEventNodeForCopy, nodeCanvasContent);
             updateNode.gameObject.SetActive(true);
+            updateNode.Node = new UnityEventNode() { EventType = UnityEventType.Update };
         }
 
         public void AddNode(Node node, Vector2 screenPosition)
         {
-            var newNodeUI = Instantiate(nodeForCopy, nodeCanvasContent);
+            node.Position = screenPosition;
+            visualScript.AddNode(node);
+
+            NodeUI newNodeUI = null;
+            if(node is ArithmeticNode)
+                newNodeUI = Instantiate(arithmeticUI, nodeCanvasContent);
+            else
+                newNodeUI = Instantiate(nodeForCopy, nodeCanvasContent);
+
             newNodeUI.Node = node;
             newNodeUI.transform.position = screenPosition;
             newNodeUI.gameObject.SetActive(true);
+
+            generatedNodeUIs.Add(newNodeUI);
         }
 
         public void AddLinkLine(LinkLineUI newLineLink)
@@ -76,11 +103,19 @@ namespace RuntimeVisualScripting.UI
             linkLines.Remove(oldLinkLine);
         }
 
-        public void NodeMoved(NodeUI movedNode)
+        public void OnNodeMoved(NodeUI movedNode)
         {
             for (int i = 0; i < linkLines.Count; i++)
             {
                 linkLines[i].ReCalculate(movedNode);
+            }
+        }
+
+        public void OnNodeCanvasScrollMoved( Vector2 scroll)
+        {
+            for (int i = 0; i < linkLines.Count; i++)
+            {
+                linkLines[i].ReCalculate();
             }
         }
 
@@ -148,6 +183,41 @@ namespace RuntimeVisualScripting.UI
             result.gameObject.SetActive(true);
 
             return result;
+        }
+
+        public void RemoveNode(NodeUI oldNodeUI)
+        {
+            for (int i = 0; i < linkLines.Count; i++)
+            {
+                if(linkLines[i].From.ParentNodeUI == oldNodeUI)
+                {
+                    Destroy(linkLines[i].gameObject);
+                    linkLines.RemoveAt(i);
+                    i--;
+                }
+                else if (linkLines[i].To.ParentNodeUI == oldNodeUI)
+                {
+                    Destroy(linkLines[i].gameObject);
+                    linkLines.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            visualScript.RemoveNode(oldNodeUI.Node);
+            generatedNodeUIs.Remove(oldNodeUI);
+            Destroy(oldNodeUI.gameObject);
+        }
+
+        public void OnGUI()
+        {
+            if (GUILayout.Button("Serialization"))
+            {
+                VisualScriptStream stream = new VisualScriptStream();
+                visualScript.Serialize(stream);
+
+                string json = JsonUtility.ToJson(stream, true);
+                Debug.Log(json);
+            }
         }
     }
 }
