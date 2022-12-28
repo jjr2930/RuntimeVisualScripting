@@ -34,6 +34,12 @@ namespace RuntimeVisualScripting.UI
         [SerializeField]
         UnityEventNodeUI unityEventNodeForCopy = null;
 
+        [SerializeField]
+        TextAsset serializedVisualScript = null;
+
+        Dictionary<long, LinkUI> genreatedVariableUIs
+            = new Dictionary<long, LinkUI>();
+
         VisualScript visualScript = new VisualScript();
 
         public VisualScript VisualScript
@@ -51,31 +57,42 @@ namespace RuntimeVisualScripting.UI
 
         public void Start()
         {
-            List<Node> testNodes = new List<Node>()
+            VisualScriptStream stream
+                = JsonUtility.FromJson<VisualScriptStream>(serializedVisualScript.text);
+
+            visualScript.Deserialize(stream);
+
+            int count = visualScript.GetNodeCount();
+            for (int i = 0; i < count; i++)
             {
-                new AddInt(),
-                new AddString(),
-            };
-            nodeSelectionMenuUI.BuildNodes(testNodes);
+                var node = visualScript.GetNode(i);
+                AddNodeUI(node, node.Position);
+            }
 
-            //create start node
-            var startNode = Instantiate(unityEventNodeForCopy, nodeCanvasContent);
-            startNode.gameObject.SetActive(true);
-            startNode.Node = new UnityEventNode() { EventType = UnityEventType.Start };
-
-            //create update node
-            var updateNode = Instantiate(unityEventNodeForCopy, nodeCanvasContent);
-            updateNode.gameObject.SetActive(true);
-            updateNode.Node = new UnityEventNode() { EventType = UnityEventType.Update };
+            for (int i = 0; i < generatedNodeUIs.Count; i++)
+            {
+                var nodeUI = generatedNodeUIs[i];
+                for (int j = 0; j < nodeUI.inputVariableUIs.Count; j++)
+                {
+                    var variableUI = nodeUI.inputVariableUIs[j];
+                    //variableUI.Variable
+                } 
+            }
         }
+
 
         public void AddNode(Node node, Vector2 screenPosition)
         {
             node.Position = screenPosition;
             visualScript.AddNode(node);
 
+            AddNodeUI(node, screenPosition);
+        }
+
+        private void AddNodeUI(Node node, Vector2 screenPosition)
+        {
             NodeUI newNodeUI = null;
-            if(node is ArithmeticNode)
+            if (node is ArithmeticNode)
                 newNodeUI = Instantiate(arithmeticUI, nodeCanvasContent);
             else
                 newNodeUI = Instantiate(nodeForCopy, nodeCanvasContent);

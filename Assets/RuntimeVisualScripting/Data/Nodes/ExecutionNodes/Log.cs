@@ -11,6 +11,18 @@ namespace RuntimeVisualScripting.Data
         InputVariable<string> input = new InputVariable<string>();
         public InputVariable<string> Input { get { return input; } set { input = value; } }
 
+        public override void Serialize(VisualScriptStream stream)
+        {
+            base.Serialize(stream);
+
+            input.Serialize(stream);
+        }
+
+        public override void Deserialize(Dictionary<long, SerializableObject> objectMap)
+        {
+            throw new NotImplementedException();
+        }
+
         public override List<Variable> GetInputVariables()
         {
             return new List<Variable>() { input };
@@ -24,19 +36,6 @@ namespace RuntimeVisualScripting.Data
         public override void Run()
         {
             Debug.Log(input.Value);
-        }
-
-        public override void Deserialize(VisualScriptStream stream)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void Serialize(VisualScriptStream stream)
-        {
-            stream.AddExecuteNode(GUID, DisplayName, GetType(), Position, previousNodeId, nextNodeId,
-                new Variable[1] { input }, null);
-
-            input.Serialize(stream);
         }
     }
 }

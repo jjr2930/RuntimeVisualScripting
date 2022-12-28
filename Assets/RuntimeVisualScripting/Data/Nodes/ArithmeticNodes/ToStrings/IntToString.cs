@@ -8,7 +8,7 @@ namespace RuntimeVisualScripting.Data
     {
         public override void Calculate()
         {
-            output.Value = input.Value.ToString();
+            Output.Value = Input.Value.ToString();
         }
     }
 }

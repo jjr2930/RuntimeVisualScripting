@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace RuntimeVisualScripting.Data
 {
+    [Serializable]
     public abstract class Variable : SerializableObject
     {
         protected Node parent;

@@ -2,11 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace RuntimeVisualScripting.Data
 {
+    [Serializable]
     public class OutputVariable<T> : Variable<T>
     {
+        [SerializeField]
+        protected List<long> linkIds = new List<long>();
+        
         protected List<InputVariable<T>> links = new List<InputVariable<T>>();
 
         public override T Value
@@ -59,19 +64,25 @@ namespace RuntimeVisualScripting.Data
             links.Remove(oldLink);
         }
 
-        public override void Deserialize(VisualScriptStream stream)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override void Serialize(VisualScriptStream stream)
         {
-            List<long> ids = new List<long>();
+            this.linkIds.Clear();
             for (int i = 0; i < links.Count; i++)
             {
-                ids.Add(links[i].GUID);
+                linkIds.Add(links[i].Id);
             }
-            stream.AddNewOutVariable(GUID, GetType(), ids);
+
+            base.Serialize(stream);
+        }
+
+        public override void Deserialize(Dictionary<long, SerializableObject> objectMap)
+        {
+            for (int i = 0; i < linkIds.Count; i++)
+            {
+                var found = objectMap[linkIds[i]];
+                links.Add(found as InputVariable<T>);
+            }
         }
     }
 }

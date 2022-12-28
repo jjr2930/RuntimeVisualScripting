@@ -20,9 +20,9 @@ namespace RuntimeVisualScripting.UI
             
             var myValueType = variableUI.Variable.ValueType;
             var targetValueType = outVariableLink.VariableUI.Variable.ValueType;
-            var isOtherType = myValueType != targetValueType;
+            var isSameType = myValueType == targetValueType;
 
-            return isOtherType;
+            return isSameType;
         }
     }
 }

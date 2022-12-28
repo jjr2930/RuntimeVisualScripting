@@ -18,14 +18,10 @@ namespace RuntimeVisualScripting.Data
             variables.Remove(oldVariable);
         }
 
-        public override void Deserialize(VisualScriptStream stream)
+        public override void Deserialize(Dictionary<long, SerializableObject> objectMap)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void Serialize(VisualScriptStream stream)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

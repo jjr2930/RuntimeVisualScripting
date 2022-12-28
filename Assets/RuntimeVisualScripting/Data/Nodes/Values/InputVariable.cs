@@ -5,8 +5,12 @@ using UnityEngine;
 
 namespace RuntimeVisualScripting.Data
 {
+    [Serializable]
     public class InputVariable<T> : Variable<T>
     {
+        [SerializeField]
+        protected long linkId;
+
         protected OutputVariable<T> link;
 
         public bool IsStatic
@@ -59,17 +63,21 @@ namespace RuntimeVisualScripting.Data
             RemoveLinkOneWay();
         }
 
-        public override void Deserialize(VisualScriptStream stream)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void Serialize(VisualScriptStream stream)
         {
-            bool hasLink = (link != null) ? true : false;
-            long linkId = (hasLink) ? link.GUID : 0;
-            string valueString = (null == value) ? "" : value.ToString();
-            stream.AddInputVariable(GUID, hasLink, linkId, GetType(), IsStatic, valueString);
+            if(null != link)
+                linkId = link.Id;
+
+            base.Serialize(stream);
+        }
+
+        public override void Deserialize(Dictionary<long, SerializableObject> objectMap)
+        {
+            //there is no link
+            if (0 == linkId)
+                return;
+
+            link = objectMap[linkId] as OutputVariable<T>;
         }
     }
 }

@@ -2,13 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.Video;
 
 namespace RuntimeVisualScripting.Data
 {
+    [Serializable]
     public abstract class SerializableObject
     {
-        static Random random = new Random();
+        static System.Random random = new System.Random();
+        
+        [SerializeField]
         protected string name = "";
         public string Name 
         { 
@@ -16,23 +21,31 @@ namespace RuntimeVisualScripting.Data
             set { name = value; } 
         }
 
-        protected long? id = null;
-        public long GUID
+        /// <summary>
+        /// it not should be 0, 0 means not set
+        /// </summary>
+        [SerializeField]
+        protected long id;
+
+        public long Id { get => id; }
+        public SerializableObject()
         {
-            get
+            //동일한 숫자가 나와서 여기를 보는 것인가?
+            //축하한다 당신은 1/1800경 의 확률을 뚫었다.
+            //:-)
+            while (id == 0)
             {
-                if(null == id)
-                {
-                    byte[] randomLong = new byte[sizeof(long)];
-                    random.NextBytes(randomLong);
-                    id = BitConverter.ToInt64(randomLong);
-                    UnityEngine.Debug.Log("id : " + id);
-                }
-               
-                return id.Value;
+                byte[] randomLong = new byte[sizeof(long)];
+                random.NextBytes(randomLong);
+                id = BitConverter.ToInt64(randomLong);
             }
         }
-        public abstract void Serialize(VisualScriptStream stream);
-        public abstract void Deserialize(VisualScriptStream stream);
+
+        public virtual void Serialize(VisualScriptStream stream)
+        {
+            stream.Push(this);
+        }
+
+        public abstract void Deserialize(Dictionary<long, SerializableObject> objectMap);
     }
 }

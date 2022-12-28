@@ -1,0 +1,36 @@
+{
+    "serializedObjects": [
+        {
+            "typeName": "RuntimeVisualScripting.Data.AddString",
+            "json": "{\"name\":\"\",\"id\":-3024135843615392553,\"position\":{\"x\":760.0,\"y\":487.0},\"inputAId\":-8931434819547359718,\"inputBId\":-5660893083226300414,\"outputId\":-3098652174113979450}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.InputVariable`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+            "json": "{\"name\":\"A\",\"id\":-8931434819547359718,\"value\":\"\",\"linkId\":0}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.InputVariable`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+            "json": "{\"name\":\"B\",\"id\":-5660893083226300414,\"value\":\"\",\"linkId\":0}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.OutputVariable`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+            "json": "{\"name\":\"Out\",\"id\":-3098652174113979450,\"value\":\"\",\"linkIds\":[]}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.AddInt",
+            "json": "{\"name\":\"Add Int\",\"id\":-1637677124251857224,\"position\":{\"x\":1049.0,\"y\":608.0},\"inputAId\":8984106395675424800,\"inputBId\":6943001824938044974,\"outputId\":-5074658845372901685}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.InputVariable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+            "json": "{\"name\":\"A\",\"id\":8984106395675424800,\"value\":0,\"linkId\":0}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.InputVariable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+            "json": "{\"name\":\"B\",\"id\":6943001824938044974,\"value\":0,\"linkId\":0}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.OutputVariable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+            "json": "{\"name\":\"Out\",\"id\":-5074658845372901685,\"value\":0,\"linkIds\":[]}"
+        }
+    ]
+}

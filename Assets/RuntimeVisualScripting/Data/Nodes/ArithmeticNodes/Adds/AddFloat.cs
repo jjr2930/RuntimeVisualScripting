@@ -9,12 +9,7 @@ namespace RuntimeVisualScripting.Data
         public override string DisplayName => "Add Float";
         public override void Calculate()
         {
-            output.Value = inputA.Value + inputB.Value;
-        }
-
-        public override void Deserialize(VisualScriptStream stream)
-        {
-            throw new System.NotImplementedException();
+            Output.Value = InputA.Value + InputB.Value;
         }
     }
 }

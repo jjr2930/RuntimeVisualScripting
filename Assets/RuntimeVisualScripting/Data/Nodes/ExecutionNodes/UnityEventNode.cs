@@ -29,6 +29,11 @@ namespace RuntimeVisualScripting.Data
 
         public override string DisplayName { get => eventType.ToString(); }
 
+        public override void Deserialize(Dictionary<long, SerializableObject> objectMap)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override List<Variable> GetInputVariables()
         {
             return null;
@@ -39,10 +44,6 @@ namespace RuntimeVisualScripting.Data
             return null;
         }
 
-        public override void Deserialize(VisualScriptStream stream)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override void Serialize(VisualScriptStream stream)
         {

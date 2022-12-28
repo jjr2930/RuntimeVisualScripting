@@ -1,192 +1,59 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace RuntimeVisualScripting.Data
 {
     [Serializable]
     public class VisualScriptStream
     {
-        [SerializeField]
-        List<ExecutionNode> executionNodes = new List<ExecutionNode>();
-
-        [SerializeField]
-        List<ArithmeticNode> arithmeticNodes = new List<ArithmeticNode>();
-
-        [SerializeField]
-        List<UnityEventNode> unityEventNodes = new List<UnityEventNode>();
-
-        [SerializeField]
-        List<InputVariable> inputVariables = new List<InputVariable>();
-
-        [SerializeField]
-        List<OutputVariable> outputVariables = new List<OutputVariable>();
-
-        public List<ExecutionNode> ExecutionNodes { get => executionNodes; }
-        public List<ArithmeticNode> ArithmeticNodes { get => arithmeticNodes; }
-        public List<UnityEventNode> UnityEventNodes { get => unityEventNodes; }
-        public List<InputVariable> InputVariables { get => inputVariables; }
-        public List<OutputVariable> OutputVariables { get => outputVariables; }
-
-        [Serializable]
-        public struct InputVariable
+        [Serializable]    
+        public struct SerializedObject
         {
-            public long id;
-            public bool hasLink;
-            public long linkedId;
-            public string displayName;
-            public string valueType;
-            public bool isStaticValue;
-            public string staticValue;
-        }
+            public string typeName;
+            public string json;
 
-        [Serializable]
-        public struct OutputVariable
-        {
-            public long id;
-            public List<long> linkedIds;
-            public string displayName;
-            public string valueType;
-        }
-
-        [Serializable]
-        public struct ExecutionNode
-        {
-            public long id;
-            public string displayName;
-            public string type;
-            public Vector2 position;
-            public long previousNodeId;
-            public long nextNodeId;
-
-            public List<long> inputs;
-            public List<long> outputs;
-        }
-
-        [Serializable]
-        public struct ArithmeticNode
-        {
-            public long id;
-            public string displayName;
-            public string type;
-            public Vector2 position;
-
-            public List<long> inputs;
-            public List<long> outputs;
-        }
-
-        [Serializable]
-        public struct UnityEventNode
-        {
-            public long id;
-            public string displayName;
-            public UnityEventType unityEventType;
-            public long linkedId;
-            public Vector2 position;
-        }
-
-        public void AddExecuteNode(long id, string displayName, Type type, Vector2 position, 
-            long previousNodeId, long nextNodeId, Variable[] inputVariables, Variable[] outputVariables)
-        {
-            ExecutionNode newNode = new ExecutionNode();
-            newNode.displayName = displayName;
-            newNode.id = id;
-            newNode.type = type.FullName;
-            newNode.position = position;
-            newNode.previousNodeId = previousNodeId;
-            newNode.nextNodeId = nextNodeId;
-
-            newNode.outputs = new List<long>();
-            newNode.inputs = new List<long>();
-            if (null != inputVariables)
+            public SerializedObject(SerializableObject obj)
             {
-                for (int i = 0; i < outputVariables.Length; i++)
-                {
-                    newNode.outputs.Add(outputVariables[i].GUID);
-                }
+                typeName = obj.GetType().FullName;
+                json = JsonUtility.ToJson(obj);
             }
-
-            if (null != outputVariables)
-            {
-                for (int i = 0; i < inputVariables.Length; i++)
-                {
-                    newNode.inputs.Add(inputVariables[i].GUID);
-                }
-            }
-
-            executionNodes.Add(newNode);
         }
 
-        public void AddArithmeticNode(long id, string displayName, Type type, Vector2 position,
-            Variable[] inputVariables, Variable[] outputVariables)
+        [SerializeField]
+        List<SerializedObject> serializedObjects = new List<SerializedObject>();
+
+        public int Count { get { return serializedObjects.Count; } }
+
+        int header = 0;
+        
+        public void Push(SerializableObject obj)
         {
-            ArithmeticNode newNode = new ArithmeticNode();
-            newNode.displayName = displayName;
-            newNode.id = id;
-            newNode.type = type.FullName;
-            newNode.position = position;
+            serializedObjects.Add(new SerializedObject(obj));
+        }
+        public SerializedObject GetNext()
+        {
+            //return serializedObjects[header++];
 
-            newNode.outputs = new List<long>();
-            newNode.inputs = new List<long>();
-            for (int i = 0; i < outputVariables.Length; i++)
-            {
-                newNode.outputs.Add(outputVariables[i].GUID);
-            }
-
-            for (int i = 0; i < inputVariables.Length; i++)
-            {
-                newNode.inputs.Add(inputVariables[i].GUID);
-            }
-
-            arithmeticNodes.Add(newNode);
+            var found = serializedObjects[header];
+            header++;
+            return found;
         }
 
-        public void AddUnityEventNode(RuntimeVisualScripting.Data.UnityEventNode node)
+        public SerializedObject GetCurrent()
         {
-            UnityEventNode newUnityEventNode = new UnityEventNode();
-            newUnityEventNode.id = node.GUID;
-            newUnityEventNode.displayName = node.DisplayName;
-            newUnityEventNode.unityEventType = node.EventType;
-            newUnityEventNode.linkedId = node.NextNode.GUID;
-            newUnityEventNode.position = node.Position;
-
-            unityEventNodes.Add(newUnityEventNode);
+            return serializedObjects[header];
         }
 
-        public void AddInputVariable(long id, bool hasLink , long linkedId, 
-            /*string displayName,*/ Type valueType, bool isStaticValue, string staticValue)
+        public bool HasNext()
         {
-            InputVariable newInput = new InputVariable();
-            newInput.id = id;
-            newInput.hasLink = hasLink;
-            newInput.linkedId = linkedId;
-            //newInput.displayName = displayName;
-            newInput.valueType = valueType.FullName;
-            newInput.isStaticValue = isStaticValue;
-            newInput.staticValue = staticValue;
-
-            inputVariables.Add(newInput);
+            return header < serializedObjects.Count;
         }
 
-        public void AddNewOutVariable(long id, /*string displayName, */Type valueType, 
-            List<long> linkIds)
+        public void Clear()
         {
-            OutputVariable newOutput = new OutputVariable();
-            newOutput.id = id;
-            //newOutput.displayName = displayName;
-            newOutput.valueType = valueType.FullName;
-            newOutput.linkedIds = new List<long>();
-
-            for (int i = 0; i < linkIds.Count; i++)
-            {
-                newOutput.linkedIds.Add(linkIds[i]);
-            }
-
-            outputVariables.Add(newOutput);
+            header = 0;
+            serializedObjects.Clear();
         }
     }
 }

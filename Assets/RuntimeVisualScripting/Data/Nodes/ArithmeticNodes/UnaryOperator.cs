@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 namespace RuntimeVisualScripting.Data
 {
     /// <summary>
@@ -9,41 +9,51 @@ namespace RuntimeVisualScripting.Data
     /// </summary>
     /// <typeparam name="InputType"></typeparam>
     /// <typeparam name="OutputType"></typeparam>
+    [Serializable]
     public abstract class UnaryOperator<InputType,OutputType> : ArithmeticNode
     {
-        protected InputVariable<InputType> input = new InputVariable<InputType>();
-        protected OutputVariable<OutputType> output = new OutputVariable<OutputType>();
+        [SerializeField]
+        long inputId = 0;
 
-        public InputVariable<InputType> Input { get => input; set => input = value; }
-        public OutputVariable<OutputType> Output { get => output; set => output = value; }
+        [SerializeField]
+        long outputId = 0;
+
+        public InputVariable<InputType> Input { get; set; }
+        public OutputVariable<OutputType> Output { get; set; }
 
         public UnaryOperator()
         {
-            input.Parent = this;
-            output .Parent = this;
+            Input = new InputVariable<InputType>();
+            Output = new OutputVariable<OutputType>();
+
+            Input.Parent = this;
+            Output.Parent = this;
         }
 
         public override List<Variable> GetOutputVariables()
         {
-            return new List<Variable>() { input };
+            return new List<Variable>() { Input };
         }
 
         public override List<Variable> GetInputVariables()
         {
-            return new List<Variable>() { output };
+            return new List<Variable>() { Output };
         }
-        public override void Deserialize(VisualScriptStream stream)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void Serialize(VisualScriptStream stream)
         {
-            stream.AddArithmeticNode(GUID, DisplayName, GetType(), Position,
-                new Variable[1] { input }, new Variable[1] { output });
+            inputId = Input.Id;
+            outputId = Output.Id;
 
-            input.Serialize(stream);
-            output.Serialize(stream);
+            base.Serialize(stream);
+
+            Input.Serialize(stream);
+            Output.Serialize(stream);
+        }
+
+        public override void Deserialize(Dictionary<long, SerializableObject> objectMap)
+        {
+            Input = objectMap[inputId] as InputVariable<InputType>;
+            Output = objectMap[outputId] as OutputVariable<OutputType>;
         }
     }
 }
