@@ -12,16 +12,24 @@ namespace RuntimeVisualScripting.UI
     {
         [Header("Link UI")]
         [SerializeField]
-        NodeUI parentNodeUI = null;
-
-
-        public NodeUI ParentNodeUI { get { return parentNodeUI; } }
+        protected NodeUI parentNodeUI = null;
+        
+        [SerializeField]
+        protected VariableUI variableUI = null;
         
         VisualScriptUI visualScriptUI = null;
+        public NodeUI ParentNodeUI { get { return parentNodeUI; } }
+        public VariableUI VariableUI { get { return variableUI; } }
 
+        public long VariableId { get { return variableUI.Variable.Id; } }
         public void Start()
         {
             visualScriptUI = GetComponentInParent<VisualScriptUI>();
+        }
+
+        public void OnDestroy()
+        {
+            visualScriptUI.RemoveLinkUI(this);
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -53,7 +61,7 @@ namespace RuntimeVisualScripting.UI
                 if (isMine || isNoLink)
                     continue;
 
-                if (false == CanConnection(findLinkUI))
+                if (false == findLinkUI.CanConnection(this))
                     continue;
 
                 //found...
@@ -65,21 +73,21 @@ namespace RuntimeVisualScripting.UI
             visualScriptUI.OnLinkUIEndDrag(this, null);
         }
 
-        public virtual void SetOrAddTargetLink(LinkUI newLink) { }
+        //public virtual void SetOrAddTargetLink(LinkUI newLink) { }
 
-        public virtual void RemoveTargetLink(LinkUI oldLink) { }
+        //public virtual void RemoveTargetLink(LinkUI oldLink) { }
 
-        public static void ConnectTwoWay(LinkUI a, LinkUI b)
-        {
-            a.SetOrAddTargetLink(b);
-            b.SetOrAddTargetLink(a);
-        }
+        //public static void ConnectTwoWay(LinkUI a, LinkUI b)
+        //{
+        //    a.SetOrAddTargetLink(b);
+        //    b.SetOrAddTargetLink(a);
+        //}
 
-        public static void DisconnectTwoWay(LinkUI a, LinkUI b)
-        {
-            a.RemoveTargetLink(b);
-            b.RemoveTargetLink(a);
-        }
+        //public static void DisconnectTwoWay(LinkUI a, LinkUI b)
+        //{
+        //    a.RemoveTargetLink(b);
+        //    b.RemoveTargetLink(a);
+        //}
 
         public virtual bool CanConnection(LinkUI checkingTarget)
         {

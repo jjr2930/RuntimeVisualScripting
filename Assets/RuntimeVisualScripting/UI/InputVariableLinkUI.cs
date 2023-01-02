@@ -7,10 +7,6 @@ namespace RuntimeVisualScripting.UI
 {
     public class InputVariableLinkUI : SingleLinkUI
     {
-        [Header("Input Variable Link UI")]
-        [SerializeField]
-        VariableUI variableUI = null;
-
         public override bool CanConnection(LinkUI checkingTarget)
         {
             base.CanConnection(checkingTarget);
@@ -24,5 +20,16 @@ namespace RuntimeVisualScripting.UI
 
             return isSameType;
         }
+
+        //public override void SetOrAddTargetLink(LinkUI newLink)
+        //{
+        //    base.SetOrAddTargetLink(newLink);
+
+        //    if (false == newLink is OutputVariableLinkUI)
+        //    {
+        //        Debug.Log("new link is not outputvariable link ui");
+        //        return;
+        //    }
+        //} 
     }
 }

@@ -1,36 +1,68 @@
 {
     "serializedObjects": [
         {
-            "typeName": "RuntimeVisualScripting.Data.AddString",
-            "json": "{\"name\":\"\",\"id\":-3024135843615392553,\"position\":{\"x\":760.0,\"y\":487.0},\"inputAId\":-8931434819547359718,\"inputBId\":-5660893083226300414,\"outputId\":-3098652174113979450}"
-        },
-        {
-            "typeName": "RuntimeVisualScripting.Data.InputVariable`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
-            "json": "{\"name\":\"A\",\"id\":-8931434819547359718,\"value\":\"\",\"linkId\":0}"
-        },
-        {
-            "typeName": "RuntimeVisualScripting.Data.InputVariable`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
-            "json": "{\"name\":\"B\",\"id\":-5660893083226300414,\"value\":\"\",\"linkId\":0}"
-        },
-        {
-            "typeName": "RuntimeVisualScripting.Data.OutputVariable`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
-            "json": "{\"name\":\"Out\",\"id\":-3098652174113979450,\"value\":\"\",\"linkIds\":[]}"
-        },
-        {
             "typeName": "RuntimeVisualScripting.Data.AddInt",
-            "json": "{\"name\":\"Add Int\",\"id\":-1637677124251857224,\"position\":{\"x\":1049.0,\"y\":608.0},\"inputAId\":8984106395675424800,\"inputBId\":6943001824938044974,\"outputId\":-5074658845372901685}"
+            "json": "{\"name\":\"\",\"id\":0,\"position\":{\"x\":386.0,\"y\":513.0},\"inputAId\":1359287680933779496,\"inputBId\":-426639410500363934,\"outputId\":-4644498452429030466}"
         },
         {
             "typeName": "RuntimeVisualScripting.Data.InputVariable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
-            "json": "{\"name\":\"A\",\"id\":8984106395675424800,\"value\":0,\"linkId\":0}"
+            "json": "{\"name\":\"A\",\"id\":1359287680933779496,\"value\":0,\"linkId\":0}"
         },
         {
             "typeName": "RuntimeVisualScripting.Data.InputVariable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
-            "json": "{\"name\":\"B\",\"id\":6943001824938044974,\"value\":0,\"linkId\":0}"
+            "json": "{\"name\":\"B\",\"id\":-426639410500363934,\"value\":0,\"linkId\":0}"
         },
         {
             "typeName": "RuntimeVisualScripting.Data.OutputVariable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
-            "json": "{\"name\":\"Out\",\"id\":-5074658845372901685,\"value\":0,\"linkIds\":[]}"
+            "json": "{\"name\":\"Out\",\"id\":-4644498452429030466,\"value\":0,\"linkIds\":[-6823551147287207540,-5003517705378979837]}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.AddFloat",
+            "json": "{\"name\":\"\",\"id\":0,\"position\":{\"x\":1091.0,\"y\":518.0},\"inputAId\":5542674981915334793,\"inputBId\":8876189649785167966,\"outputId\":9060372129539351714}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.InputVariable`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+            "json": "{\"name\":\"A\",\"id\":5542674981915334793,\"value\":0.0,\"linkId\":0}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.InputVariable`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+            "json": "{\"name\":\"B\",\"id\":8876189649785167966,\"value\":0.0,\"linkId\":0}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.OutputVariable`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+            "json": "{\"name\":\"Out\",\"id\":9060372129539351714,\"value\":0.0,\"linkIds\":[]}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.AddInt",
+            "json": "{\"name\":\"\",\"id\":0,\"position\":{\"x\":684.0000610351563,\"y\":598.9999389648438},\"inputAId\":-5003517705378979837,\"inputBId\":-2843104360179703603,\"outputId\":3352008338946827437}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.InputVariable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+            "json": "{\"name\":\"A\",\"id\":-5003517705378979837,\"value\":0,\"linkId\":-4644498452429030466}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.InputVariable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+            "json": "{\"name\":\"B\",\"id\":-2843104360179703603,\"value\":0,\"linkId\":0}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.OutputVariable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+            "json": "{\"name\":\"Out\",\"id\":3352008338946827437,\"value\":0,\"linkIds\":[]}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.AddInt",
+            "json": "{\"name\":\"\",\"id\":0,\"position\":{\"x\":681.0000610351563,\"y\":416.99993896484377},\"inputAId\":-6823551147287207540,\"inputBId\":8008750369546372443,\"outputId\":6833463051150013968}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.InputVariable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+            "json": "{\"name\":\"A\",\"id\":-6823551147287207540,\"value\":0,\"linkId\":-4644498452429030466}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.InputVariable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+            "json": "{\"name\":\"B\",\"id\":8008750369546372443,\"value\":0,\"linkId\":0}"
+        },
+        {
+            "typeName": "RuntimeVisualScripting.Data.OutputVariable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+            "json": "{\"name\":\"Out\",\"id\":6833463051150013968,\"value\":0,\"linkIds\":[]}"
         }
     ]
 }

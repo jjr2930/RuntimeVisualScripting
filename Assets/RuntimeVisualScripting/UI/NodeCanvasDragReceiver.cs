@@ -14,7 +14,8 @@ namespace RuntimeVisualScripting.UI
         {
             base.OnDragEnd(obj, screenPoint);
             var nodeDragUI = obj.GetComponent<NodeSelectMenuListItemUI>();
-            var node = Activator.CreateInstance(nodeDragUI.Node.GetType()) as Node;
+            var node = Activator.CreateInstance(nodeDragUI.NodeType) as Node;
+            node.Initialize();
             nodeCanvas.AddNode(node, screenPoint);
         }
     }

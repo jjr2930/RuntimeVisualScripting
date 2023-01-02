@@ -6,11 +6,6 @@ namespace RuntimeVisualScripting.Data
 {
     public class AddInt : BinaryOperator<int, int, int>
     {
-        public AddInt() : base() 
-        {
-            name = "Add Int";
-        }
-
         public override string DisplayName => "Add Int";
         public override void Calculate()
         {

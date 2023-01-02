@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 8640128656374287775}
   - component: {fileID: 2996129004176665322}
   - component: {fileID: 5451365144949014377}
-  - component: {fileID: 8585264323940462302}
+  - component: {fileID: 2139197061732752764}
   m_Layer: 5
   m_Name: InputVariable
   m_TagString: Untagged
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8585264323940462302
+--- !u!114 &2139197061732752764
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,9 +167,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 602987457055747007}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c97b517481f6f648b394dbf5028c612, type: 3}
+  m_Script: {fileID: 11500000, guid: 98ccc2fed939ed743b1c414d98ef93dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  linkUI: {fileID: 4754826280090597499}
   nameText: {fileID: 8208297155884302777}
 --- !u!1 &637489752815722894
 GameObject:
@@ -266,10 +267,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: {fileID: 299196676373341019}
   visualScriptUI: {fileID: 0}
-  originInputVariable: {fileID: 8585264323940462302}
+  originInputVariable: {fileID: 2139197061732752764}
   inputContentRoot: {fileID: 6219533559280703167}
-  originOutputVariable: {fileID: 3967510690282076836}
+  originOutputVariable: {fileID: 4536290739073553760}
   outputContentRoot: {fileID: 5189090808402529731}
+  inputVariableUIs: []
+  outputVariableUIs: []
 --- !u!1 &650207866102004773
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,6 +580,8 @@ MonoBehaviour:
   inputContentRoot: {fileID: 0}
   originOutputVariable: {fileID: 0}
   outputContentRoot: {fileID: 0}
+  inputVariableUIs: []
+  outputVariableUIs: []
   eventType: 0
 --- !u!1 &1111556723986286045
 GameObject:
@@ -864,8 +869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentNodeUI: {fileID: 7249461046325380063}
-  targetLink: {fileID: 0}
-  variableUI: {fileID: 8585264323940462302}
+  variableUI: {fileID: 2139197061732752764}
 --- !u!1 &1707757754397066415
 GameObject:
   m_ObjectHideFlags: 0
@@ -1467,7 +1471,7 @@ GameObject:
   - component: {fileID: 1167279784178551016}
   - component: {fileID: 7554016913630982884}
   - component: {fileID: 2623743234019038908}
-  - component: {fileID: 3967510690282076836}
+  - component: {fileID: 4536290739073553760}
   m_Layer: 5
   m_Name: OutputVariable
   m_TagString: Untagged
@@ -1535,7 +1539,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3967510690282076836
+--- !u!114 &4536290739073553760
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1544,9 +1548,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2384098474482444506}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da551dc4c6fa00046a32809611bc9f98, type: 3}
+  m_Script: {fileID: 11500000, guid: 98ccc2fed939ed743b1c414d98ef93dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  linkUI: {fileID: 6356575169193840115}
   nameText: {fileID: 8039399700096830325}
 --- !u!1 &2486070047978910655
 GameObject:
@@ -1971,7 +1976,7 @@ RectTransform:
   - {fileID: 9104044434469270671}
   - {fileID: 8730301835770841857}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2060,6 +2065,7 @@ MonoBehaviour:
   linkLineUIForCopy: {fileID: 6713408821549638044}
   nodeSelectionMenuUI: {fileID: 5102989658433521440}
   unityEventNodeForCopy: {fileID: 777491803613904908}
+  serializedVisualScript: {fileID: 4900000, guid: b159097a511774340839944777f8dfc1, type: 3}
 --- !u!1 &2728561286520936962
 GameObject:
   m_ObjectHideFlags: 0
@@ -2407,8 +2413,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2728561287116852979}
   m_HandleRect: {fileID: 2728561287116852978}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9990989
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3021,7 +3027,7 @@ GameObject:
   - component: {fileID: 2728561287679642369}
   - component: {fileID: 2728561287679642383}
   - component: {fileID: 2728561287679642382}
-  - component: {fileID: 3959563264063195618}
+  - component: {fileID: 5776723950307805701}
   m_Layer: 5
   m_Name: InputVariable
   m_TagString: Untagged
@@ -3089,7 +3095,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3959563264063195618
+--- !u!114 &5776723950307805701
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3098,9 +3104,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2728561287679642368}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c97b517481f6f648b394dbf5028c612, type: 3}
+  m_Script: {fileID: 11500000, guid: 98ccc2fed939ed743b1c414d98ef93dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  linkUI: {fileID: 3577700569114799831}
   nameText: {fileID: 2728561287168824766}
 --- !u!1 &2728561287698191614
 GameObject:
@@ -3197,10 +3204,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: {fileID: 8948738491122127960}
   visualScriptUI: {fileID: 0}
-  originInputVariable: {fileID: 3959563264063195618}
+  originInputVariable: {fileID: 5776723950307805701}
   inputContentRoot: {fileID: 2728561287260755462}
-  originOutputVariable: {fileID: 4395820624881292446}
+  originOutputVariable: {fileID: 5872634579186064838}
   outputContentRoot: {fileID: 2728561287766618433}
+  inputVariableUIs: []
+  outputVariableUIs: []
 --- !u!1 &2728561287766618432
 GameObject:
   m_ObjectHideFlags: 0
@@ -3313,7 +3322,7 @@ GameObject:
   - component: {fileID: 2728561287882023412}
   - component: {fileID: 2728561287882023410}
   - component: {fileID: 2728561287882023413}
-  - component: {fileID: 4395820624881292446}
+  - component: {fileID: 5872634579186064838}
   m_Layer: 5
   m_Name: OutputVariable
   m_TagString: Untagged
@@ -3381,7 +3390,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4395820624881292446
+--- !u!114 &5872634579186064838
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3390,9 +3399,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2728561287882023415}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da551dc4c6fa00046a32809611bc9f98, type: 3}
+  m_Script: {fileID: 11500000, guid: 98ccc2fed939ed743b1c414d98ef93dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  linkUI: {fileID: 2871203958059388001}
   nameText: {fileID: 2728561286528308052}
 --- !u!1 &2728561288040109399
 GameObject:
@@ -3430,7 +3440,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000005662441}
+  m_AnchoredPosition: {x: 0, y: -0.00034665465}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2728561288040109397
@@ -3852,7 +3862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentNodeUI: {fileID: 0}
-  targetLink: {fileID: 0}
+  variableUI: {fileID: 0}
 --- !u!1 &3822327018802118935
 GameObject:
   m_ObjectHideFlags: 0
@@ -5716,8 +5726,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentNodeUI: {fileID: 6931922098451909444}
+  variableUI: {fileID: 5872634579186064838}
   targetLinks: []
-  variableUI: {fileID: 4395820624881292446}
 --- !u!1 &6831794319713294205
 GameObject:
   m_ObjectHideFlags: 0
@@ -5925,8 +5935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentNodeUI: {fileID: 6931922098451909444}
-  targetLink: {fileID: 0}
-  variableUI: {fileID: 3959563264063195618}
+  variableUI: {fileID: 5776723950307805701}
 --- !u!1 &7681762918811328540
 GameObject:
   m_ObjectHideFlags: 0
@@ -6108,7 +6117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentNodeUI: {fileID: 0}
-  targetLink: {fileID: 0}
+  variableUI: {fileID: 0}
 --- !u!1 &9200135692565845066
 GameObject:
   m_ObjectHideFlags: 0
@@ -6199,8 +6208,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentNodeUI: {fileID: 7249461046325380063}
+  variableUI: {fileID: 4536290739073553760}
   targetLinks: []
-  variableUI: {fileID: 3967510690282076836}
 --- !u!1001 &769295867128512363
 PrefabInstance:
   m_ObjectHideFlags: 0

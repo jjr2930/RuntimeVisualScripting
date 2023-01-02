@@ -26,7 +26,7 @@ namespace RuntimeVisualScripting.UI
 
         public Action<string> onSearchInputChanged = null;
 
-        public void BuildNodes(List<Node> nodes)
+        public void BuildNodes(List<Type> nodes)
         {
             int count = nodes.Count - generatedNodes.Count;
             if (count > 0)
@@ -42,7 +42,7 @@ namespace RuntimeVisualScripting.UI
                 if (i < nodes.Count)
                 {
                     generatedNodes[i].gameObject.SetActive(true);
-                    generatedNodes[i].Node = nodes[i];
+                    generatedNodes[i].NodeType = nodes[i];
                 }
                 else
                     generatedNodes[i].gameObject.SetActive(false);
@@ -61,7 +61,7 @@ namespace RuntimeVisualScripting.UI
 
             for (int i = 0; i < generatedNodes.Count; i++)
             {
-                bool onOff = generatedNodes[i].Node.DisplayName.ToUpper().Contains(text.ToUpper());
+                bool onOff = generatedNodes[i].NodeType.ToString().ToUpper().Contains(text.ToUpper());
                 generatedNodes[i].gameObject.SetActive(onOff);
             }
         }

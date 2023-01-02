@@ -1,4 +1,5 @@
 using RuntimeVisualScripting.Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,14 +11,14 @@ namespace RuntimeVisualScripting.UI
     public class NodeSelectMenuListItemUI : DraggableObject
     {
         [SerializeField]
-        Node node = null;
-        public Node Node 
+        Type nodeType = null;
+        public Type NodeType 
         {
-            get { return node; }
+            get { return nodeType; }
             set
             {
-                node = value;
-                nameText.text = Node.DisplayName;
+                nodeType = value;
+                nameText.text = NodeType.ToString();
             }
         }
 
@@ -28,7 +29,7 @@ namespace RuntimeVisualScripting.UI
         {
             base.OnBeginDrag(eventData);
             var nodeUI = copiedTransform.GetComponent<NodeSelectMenuListItemUI>();
-            nodeUI.node = this.node;
+            nodeUI.nodeType = this.nodeType;
         }
     }
 }

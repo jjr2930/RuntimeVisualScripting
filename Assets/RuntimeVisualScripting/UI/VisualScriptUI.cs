@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.UIElements;
 
 namespace RuntimeVisualScripting.UI
@@ -37,11 +38,9 @@ namespace RuntimeVisualScripting.UI
         [SerializeField]
         TextAsset serializedVisualScript = null;
 
-        Dictionary<long, LinkUI> genreatedVariableUIs
-            = new Dictionary<long, LinkUI>();
+        VisualScript visualScript = null;
 
-        VisualScript visualScript = new VisualScript();
-
+        Dictionary<long, LinkUI> linkByVariables = new Dictionary<long, LinkUI>();
         public VisualScript VisualScript
         {
             get
@@ -55,32 +54,52 @@ namespace RuntimeVisualScripting.UI
             }
         }
 
-        public void Start()
+        public void Awake()
         {
-            VisualScriptStream stream
-                = JsonUtility.FromJson<VisualScriptStream>(serializedVisualScript.text);
-
-            visualScript.Deserialize(stream);
-
-            int count = visualScript.GetNodeCount();
-            for (int i = 0; i < count; i++)
-            {
-                var node = visualScript.GetNode(i);
-                AddNodeUI(node, node.Position);
-            }
-
-            for (int i = 0; i < generatedNodeUIs.Count; i++)
-            {
-                var nodeUI = generatedNodeUIs[i];
-                for (int j = 0; j < nodeUI.inputVariableUIs.Count; j++)
+            visualScript = new VisualScript();
+            visualScript.onNodeDeserialized +=
+                (newNode) =>
                 {
-                    var variableUI = nodeUI.inputVariableUIs[j];
-                    //variableUI.Variable
-                } 
-            }
+                    AddNodeUI(newNode, newNode.Position);
+                };
+
+            visualScript.onInputVariableDeserialized +=
+                (a) =>
+                {
+                    StartCoroutine(OnInputVariableDeserializedDelayed(a));
+                };
+
         }
 
+        public void Start()
+        {
+            List<Type> nodes = new List<Type>()
+            {
+                typeof(AddInt),
+                typeof(AddFloat)
+            };
 
+            nodeSelectionMenuUI.BuildNodes(nodes);
+            //return;
+            //VisualScriptStream stream
+            //    = JsonUtility.FromJson<VisualScriptStream>(serializedVisualScript.text);
+
+            //visualScript.Deserialize(stream);
+        }
+
+        IEnumerator OnInputVariableDeserializedDelayed(Variable a)
+        {
+            yield return new WaitForEndOfFrame();
+            ILinkable aLink = a as ILinkable;
+            if (false == aLink.HasLink)
+                yield break;
+
+            ILinkable bLink = aLink.GetTarget(0);
+
+            Variable b = bLink as Variable;
+            OnLinkUIBeginDrag(linkByVariables[a.Id]);
+            OnLinkUIEndDrag(linkByVariables[a.Id], linkByVariables[b.Id]);
+        }
         public void AddNode(Node node, Vector2 screenPosition)
         {
             node.Position = screenPosition;
@@ -146,8 +165,8 @@ namespace RuntimeVisualScripting.UI
             else if (pressedLinkUI is MultiLinkUI)
                 linkLineUI = GetNewLinkLineUI();
 
-            if(null != linkLineUI.From && null != linkLineUI.To)
-                LinkUI.DisconnectTwoWay(linkLineUI.From, linkLineUI.To);
+            //if(null != linkLineUI.From && null != linkLineUI.To)
+            //    LinkUI.DisconnectTwoWay(linkLineUI.From, linkLineUI.To);
 
             linkLineUI.From = pressedLinkUI;
             linkLineUI.To = null;
@@ -159,17 +178,21 @@ namespace RuntimeVisualScripting.UI
             linkLineUI.SetToPosition(screenPoint);
         }
 
-        public void OnLinkUIEndDrag(LinkUI releasedLinkUI, LinkUI hoveredLinkUI)
+        public void OnLinkUIEndDrag(LinkUI from, LinkUI hovered)
         {
-            var linkLineUI = GetLinkLineUI(releasedLinkUI);
-            if(null == hoveredLinkUI)
+            var linkLineUI = GetLinkLineUI(from);
+            if(null == hovered)
             {
                 Destroy(linkLineUI.gameObject);
             }
             else
             {
-                linkLineUI.To = hoveredLinkUI;
-                LinkUI.ConnectTwoWay(releasedLinkUI, hoveredLinkUI);
+                linkLineUI.To = hovered;
+                ILinkable fromLinkable = from.VariableUI.Variable as ILinkable;
+                ILinkable hoveredLinkable = hovered.VariableUI.Variable as ILinkable;
+
+                fromLinkable.LinkTwoWay(hoveredLinkable);
+                //LinkUI.ConnectTwoWay(from, hovered);
             }
         }
 
@@ -225,6 +248,49 @@ namespace RuntimeVisualScripting.UI
             Destroy(oldNodeUI.gameObject);
         }
 
+        public void AddLinkUI(LinkUI newLinkUI)
+        {
+            linkByVariables.Add(newLinkUI.VariableId, newLinkUI);
+        }
+
+        public void RemoveLinkUI(LinkUI oldLinkUI)
+        {
+            linkByVariables.Remove(oldLinkUI.VariableId);
+        }
+
+        public void UpdateLinkUIMap(LinkUI source)
+        {
+            foreach (var item in linkByVariables)
+            {
+                if(item.Value == source)
+                {
+                    linkByVariables.Remove(item.Key);
+                    break;
+                }
+            }
+
+            linkByVariables.Add(source.VariableId, source);
+        }
+
+        public void Clear()
+        {
+            while (0 < generatedNodeUIs.Count)
+            {
+                var oldNodeUI = generatedNodeUIs[0];
+                generatedNodeUIs.RemoveAt(0);
+                Destroy(oldNodeUI.gameObject);
+            }
+
+            while ( 0 < linkLines.Count)
+            {
+                var oldLine = linkLines[0];
+                linkLines.RemoveAt(0);
+                Destroy(oldLine.gameObject);
+            }
+
+            visualScript.Clear();
+        }
+
         public void OnGUI()
         {
             if (GUILayout.Button("Serialization"))
@@ -234,6 +300,17 @@ namespace RuntimeVisualScripting.UI
 
                 string json = JsonUtility.ToJson(stream, true);
                 Debug.Log(json);
+            }
+
+            if (GUILayout.Button("Deserializaion"))
+            {
+                Clear();
+
+                VisualScriptStream stream 
+                    = JsonUtility.FromJson<VisualScriptStream>(serializedVisualScript.text);
+
+                visualScript.Clear();
+                visualScript.Deserialize(stream);
             }
         }
     }

@@ -13,5 +13,6 @@ namespace RuntimeVisualScripting.Data
         public virtual string DisplayName { get; }
         public abstract List<Variable> GetInputVariables();
         public abstract List<Variable> GetOutputVariables();
+        public virtual void Initialize() {  }
     }
 }

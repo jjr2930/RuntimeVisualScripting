@@ -12,7 +12,9 @@ namespace RuntimeVisualScripting.Data
     public abstract class SerializableObject
     {
         static System.Random random = new System.Random();
-        
+        //static List<SerializableObject> objs = new List<SerializableObject>();
+
+
         [SerializeField]
         protected string name = "";
         public string Name 
@@ -27,19 +29,35 @@ namespace RuntimeVisualScripting.Data
         [SerializeField]
         protected long id;
 
-        public long Id { get => id; }
-        public SerializableObject()
+        public long Id 
         {
-            //동일한 숫자가 나와서 여기를 보는 것인가?
-            //축하한다 당신은 1/1800경 의 확률을 뚫었다.
-            //:-)
-            while (id == 0)
+            get
             {
-                byte[] randomLong = new byte[sizeof(long)];
-                random.NextBytes(randomLong);
-                id = BitConverter.ToInt64(randomLong);
+                if(id == 0)
+                {
+                    byte[] randomLong = new byte[sizeof(long)];
+                    random.NextBytes(randomLong);
+                    id = BitConverter.ToInt64(randomLong);
+                }
+
+                return id;
             }
         }
+        //public SerializableObject()
+        //{
+        //    //동일한 숫자가 나와서 여기를 보는 것인가?
+        //    //축하한다 당신은 1/1800경 의 확률을 뚫었다.
+        //    //:-)
+        //    while (id == 0)
+        //    {
+        //        byte[] randomLong = new byte[sizeof(long)];
+        //        random.NextBytes(randomLong);
+        //        id = BitConverter.ToInt64(randomLong);
+        //    }
+
+        //    objs.Add(this);
+        //    UnityEngine.Debug.Log($"Object Added : {this.GetType()}, id : {id}, count : {objs.Count}");
+        //}
 
         public virtual void Serialize(VisualScriptStream stream)
         {

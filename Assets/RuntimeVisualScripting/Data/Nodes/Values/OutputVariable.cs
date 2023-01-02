@@ -7,12 +7,12 @@ using UnityEngine.UIElements;
 namespace RuntimeVisualScripting.Data
 {
     [Serializable]
-    public class OutputVariable<T> : Variable<T>
+    public class OutputVariable<T> : Variable<T> , ILinkable
     {
         [SerializeField]
         protected List<long> linkIds = new List<long>();
         
-        protected List<InputVariable<T>> links = new List<InputVariable<T>>();
+        protected List<ILinkable> links = new List<ILinkable>();
 
         public override T Value
         {
@@ -31,48 +31,17 @@ namespace RuntimeVisualScripting.Data
 
         public override Type ValueType { get => typeof(T); }
 
-        public void AddLinkOneWay(InputVariable<T> newNode)
-        {
-            if (links.Contains(newNode))
-            {
-                Debug.LogWarning($"already has link({newNode.Name})");
-                return;
-            }
+        public bool IsInputVaraible => false;
 
-            links.Add(newNode);
-        }
-        public void AddLinkTwoWay(InputVariable<T> newLink)
-        {
-            AddLinkOneWay(newLink);
-            newLink.SetLinkOneWay(this);
-        }
-
-        public void RemoveLinkTwoWay(InputVariable<T> oldLink)
-        {
-            RemoveLinkOneWay(oldLink);
-            oldLink.SetLinkOneWay(null);
-        }
-
-        public void RemoveLinkOneWay(InputVariable<T> oldLink)
-        {
-            if (false == links.Contains(oldLink))
-            {
-                Debug.LogWarning($"there is no link({oldLink.Name})");
-                return;
-            }
-
-            links.Remove(oldLink);
-        }
-
+        public bool HasLink => links.Count > 0;
 
         public override void Serialize(VisualScriptStream stream)
         {
-            this.linkIds.Clear();
+            linkIds.Clear();
             for (int i = 0; i < links.Count; i++)
             {
-                linkIds.Add(links[i].Id);
+                linkIds.Add((links[i] as SerializableObject).Id);
             }
-
             base.Serialize(stream);
         }
 
@@ -83,6 +52,48 @@ namespace RuntimeVisualScripting.Data
                 var found = objectMap[linkIds[i]];
                 links.Add(found as InputVariable<T>);
             }
+        }
+
+        public void LinkOneWay(ILinkable other)
+        {
+            if (links.Contains(other))
+            {
+                Debug.LogWarning($"already has link({other.ToString()})");
+                return;
+            }
+
+            links.Add(other);
+        }
+
+        public void LinkTwoWay(ILinkable other)
+        {
+            LinkOneWay(other);
+            other.LinkOneWay(this);
+        }
+
+        public void UnlinkOneWay(ILinkable other)
+        {
+            if (false == links.Contains(other))
+            {
+                Debug.LogWarning($"there is no link({other})");
+                return;
+            }
+
+            links.Remove(other);
+        }
+
+        public void UnlinkTwoWay(ILinkable other)
+        {
+            UnlinkOneWay(other);
+            other.UnlinkOneWay(this);
+        }
+
+        public ILinkable GetTarget(int index)
+        {
+            if (index >= links.Count)
+                return null;
+
+            return links[index];
         }
     }
 }

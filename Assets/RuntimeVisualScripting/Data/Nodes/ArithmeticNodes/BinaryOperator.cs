@@ -28,13 +28,15 @@ namespace RuntimeVisualScripting.Data
         public InputVariable<InputType2> InputB { get; set; }
         public OutputVariable<OutputType> Output { get; set; }
 
-        public BinaryOperator()
+        public BinaryOperator() { }
+
+        public override void Initialize()
         {
             InputA = new InputVariable<InputType1>();
             InputB = new InputVariable<InputType2>();
             Output = new OutputVariable<OutputType>();
 
-            InputA.Parent =  this;
+            InputA.Parent = this;
             InputB.Parent = this;
             Output.Parent = this;
 

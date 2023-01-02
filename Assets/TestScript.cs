@@ -60,12 +60,12 @@ public class TestScript : MonoBehaviour
         //UnityEngine.Debug.Log($"NameTypeTable.Instance.GetType : {stopwatch.ElapsedMilliseconds}"); 
         #endregion
 
-        var stream = JsonUtility.FromJson<VisualScriptStream>(serializedVisualScript.text);
-        VisualScript newVisualScript = new VisualScript();
-        newVisualScript.Deserialize(stream);
+        //var stream = JsonUtility.FromJson<VisualScriptStream>(serializedVisualScript.text);
+        //VisualScript newVisualScript = new VisualScript();
+        //newVisualScript.Deserialize(stream);
 
-        stream.Clear();
-        newVisualScript.Serialize(stream);
-        UnityEngine.Debug.Log(JsonUtility.ToJson(stream, true));
+        //stream.Clear();
+        //newVisualScript.Serialize(stream);
+        //UnityEngine.Debug.Log(JsonUtility.ToJson(stream, true));
     }
 }

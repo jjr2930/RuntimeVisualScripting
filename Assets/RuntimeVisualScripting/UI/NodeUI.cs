@@ -17,22 +17,22 @@ namespace RuntimeVisualScripting.UI
         protected VisualScriptUI visualScriptUI = null;
 
         [SerializeField]
-        protected InputVariableUI originInputVariable;
+        protected VariableUI originInputVariable;
 
         [SerializeField]
         protected Transform inputContentRoot = null;
 
         [SerializeField]
-        protected OutputVariableUI originOutputVariable;
+        protected VariableUI originOutputVariable;
 
         [SerializeField]
         protected Transform outputContentRoot = null;
 
         [SerializeField]
-        public List<InputVariableUI> inputVariableUIs = new List<InputVariableUI>();
+        public List<VariableUI> inputVariableUIs = new List<VariableUI>();
 
         [SerializeField]
-        public List<OutputVariableUI> outputVariableUIs = new List<OutputVariableUI>();
+        public List<VariableUI> outputVariableUIs = new List<VariableUI>();
 
         private Node node = null;
         public Node Node 
@@ -55,7 +55,7 @@ namespace RuntimeVisualScripting.UI
         public override void OnDrag(PointerEventData eventData)
         {
             base.OnDrag(eventData);
-            node.Position = eventData.position;
+            node.Position = transform.position;
             visualScriptUI.OnNodeMoved(this);
         }
 

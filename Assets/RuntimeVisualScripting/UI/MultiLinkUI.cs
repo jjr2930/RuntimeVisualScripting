@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace RuntimeVisualScripting.UI
@@ -12,29 +13,33 @@ namespace RuntimeVisualScripting.UI
 
         
 
-        public override void SetOrAddTargetLink(LinkUI newLink)
-        {
-            if (targetLinks.Contains(newLink))
-                return;
-        }
+        //public override void SetOrAddTargetLink(LinkUI newLink)
+        //{
+        //    if (targetLinks.Contains(newLink))
+        //        return;
 
-        public override void RemoveTargetLink(LinkUI oldLink)
-        {
-            if (false == targetLinks.Contains(oldLink))
-                return;
-        }
+        //    targetLinks.Add(newLink);
+        //}
 
-        public LinkUI GetLink(int index)
-        {
-            if (index < 0 || index >= targetLinks.Count)
-                throw new System.IndexOutOfRangeException();
+        //public override void RemoveTargetLink(LinkUI oldLink)
+        //{
+        //    if (false == targetLinks.Contains(oldLink))
+        //        return;
 
-            return targetLinks[index];
-        }
+        //    targetLinks.Remove(oldLink);
+        //}
 
-        public int GetLinkCount()
-        {
-            return targetLinks.Count;
-        }
+        //public LinkUI GetLink(int index)
+        //{
+        //    if (index < 0 || index >= targetLinks.Count)
+        //        throw new System.IndexOutOfRangeException();
+
+        //    return targetLinks[index];
+        //}
+
+        //public int GetLinkCount()
+        //{
+        //    return targetLinks.Count;
+        //}
     }
 }

@@ -21,7 +21,7 @@ namespace RuntimeVisualScripting.Data
         public InputVariable<InputType> Input { get; set; }
         public OutputVariable<OutputType> Output { get; set; }
 
-        public UnaryOperator()
+        public override void Initialize()
         {
             Input = new InputVariable<InputType>();
             Output = new OutputVariable<OutputType>();

@@ -6,12 +6,12 @@ using UnityEngine;
 namespace RuntimeVisualScripting.Data
 {
     [Serializable]
-    public class InputVariable<T> : Variable<T>
+    public class InputVariable<T> : Variable<T> , ILinkable
     {
         [SerializeField]
         protected long linkId;
 
-        protected OutputVariable<T> link;
+        protected ILinkable link;
 
         public bool IsStatic
         {
@@ -25,7 +25,8 @@ namespace RuntimeVisualScripting.Data
                 if (IsStatic)
                     return value;
                     
-                return link.Value;
+
+                return (link as OutputVariable<T>).Value;
             }
             set
             {
@@ -41,32 +42,18 @@ namespace RuntimeVisualScripting.Data
             get { return typeof(T); }
         }
 
-        public void SetLinkOneWay(OutputVariable<T> link)
-        {
-            this.link = link;
-        }
+        public bool IsInputVaraible => true;
 
-        public void SetLinkTwoWay(OutputVariable<T> link)
-        {
-            this.link = link;
-            link.AddLinkOneWay(this);
-        }
+        public bool HasLink => link != null;
 
-        public void RemoveLinkOneWay()
-        {
-            link = null;
-        }
-
-        public void RemoveLinkTwoWay()
-        {
-            link.RemoveLinkOneWay(this);
-            RemoveLinkOneWay();
-        }
-
+        /// <summary>
+        /// input variable에서만 링크 정보를 직렬화 한다.
+        /// </summary>
+        /// <param name="stream"></param>
         public override void Serialize(VisualScriptStream stream)
         {
             if(null != link)
-                linkId = link.Id;
+                linkId = (link as SerializableObject).Id;
 
             base.Serialize(stream);
         }
@@ -77,7 +64,34 @@ namespace RuntimeVisualScripting.Data
             if (0 == linkId)
                 return;
 
-            link = objectMap[linkId] as OutputVariable<T>;
+            link = objectMap[linkId] as ILinkable;
+        }
+
+        public void LinkOneWay(ILinkable other)
+        {
+            this.link = other;
+        }
+
+        public void LinkTwoWay(ILinkable other)
+        {
+            this.link = other;
+            other.LinkOneWay(this);
+        }
+
+        public void UnlinkOneWay(ILinkable other)
+        {
+            this.link = null;
+        }
+
+        public void UnlinkTwoWay(ILinkable other)
+        {
+            this.link = null;
+            other.UnlinkOneWay(this);
+        }
+
+        public ILinkable GetTarget(int index)
+        {
+            return link;
         }
     }
 }
