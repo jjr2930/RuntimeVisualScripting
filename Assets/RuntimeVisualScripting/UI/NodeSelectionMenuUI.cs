@@ -13,13 +13,13 @@ namespace RuntimeVisualScripting.UI
         TMP_InputField searchInput = null;
 
         [SerializeField]
-        NodeSelectMenuListItemUI nodeUIToCopy = null;
+        NodeListItemUI nodeUIToCopy = null;
 
         [SerializeField]
         Transform nodeContentRoot = null;
 
         [SerializeField]
-        List<NodeSelectMenuListItemUI> generatedNodes = new List<NodeSelectMenuListItemUI>();
+        List<NodeListItemUI> generatedNodes = new List<NodeListItemUI>();
 
         [SerializeField]
         List<UnityEventNodeUI> generatedUnityEventNodes = new List<UnityEventNodeUI>();  

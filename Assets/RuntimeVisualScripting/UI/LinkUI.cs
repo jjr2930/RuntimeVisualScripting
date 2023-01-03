@@ -1,6 +1,7 @@
 using RuntimeVisualScripting.Data;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,27 +10,16 @@ using UnityEngine.UIElements;
 namespace RuntimeVisualScripting.UI
 {
     public abstract class LinkUI : MonoBehaviour , IBeginDragHandler, IDragHandler, IEndDragHandler
-    {
-        [Header("Link UI")]
-        [SerializeField]
-        protected NodeUI parentNodeUI = null;
+    {        
+        //[SerializeField]
+        //protected VariableUI variableUI = null;
         
-        [SerializeField]
-        protected VariableUI variableUI = null;
-        
-        VisualScriptUI visualScriptUI = null;
-        public NodeUI ParentNodeUI { get { return parentNodeUI; } }
-        public VariableUI VariableUI { get { return variableUI; } }
+        protected VisualScriptUI visualScriptUI = null;
 
-        public long VariableId { get { return variableUI.Variable.Id; } }
-        public void Start()
+        //public long VariableId { get { return variableUI.Variable.Id; } }
+        public virtual void Start()
         {
             visualScriptUI = GetComponentInParent<VisualScriptUI>();
-        }
-
-        public void OnDestroy()
-        {
-            visualScriptUI.RemoveLinkUI(this);
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -89,9 +79,10 @@ namespace RuntimeVisualScripting.UI
         //    b.RemoveTargetLink(a);
         //}
 
-        public virtual bool CanConnection(LinkUI checkingTarget)
-        {
-            return true;
-        }
+        public virtual void LinkOneWay(LinkUI other) { }
+        public virtual void LinkTwoWay(LinkUI other) { }
+        public virtual void UnlinkOneWay(LinkUI other) { }
+        public virtual void UnlinkTwoWay(LinkUI other) { }
+        public abstract bool CanConnection(LinkUI checkingTarget);
     }
 }

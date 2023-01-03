@@ -29,7 +29,7 @@ namespace RuntimeVisualScripting.UI
             var copied = Instantiate(gameObject, panel.transform);
             Destroy(copied.GetComponent<DraggableObject>());
 
-            copied.GetComponent<NodeSelectMenuListItemUI>();
+            copied.GetComponent<NodeListItemUI>();
 
             copiedTransform = copied.transform as RectTransform;
             copiedTransform.localScale = transform.localScale;

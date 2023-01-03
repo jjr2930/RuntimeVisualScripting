@@ -40,7 +40,9 @@ namespace RuntimeVisualScripting.UI
 
         VisualScript visualScript = null;
 
-        Dictionary<long, LinkUI> linkByVariables = new Dictionary<long, LinkUI>();
+        Dictionary<long, VariableLinkUI> variableLinkByVariableId 
+            = new Dictionary<long, VariableLinkUI>();
+
         public VisualScript VisualScript
         {
             get
@@ -73,13 +75,13 @@ namespace RuntimeVisualScripting.UI
 
         public void Start()
         {
-            List<Type> nodes = new List<Type>()
-            {
-                typeof(AddInt),
-                typeof(AddFloat)
-            };
+            //List<Type> nodes = new List<Type>()
+            //{
+            //    typeof(AddInt),
+            //    typeof(AddFloat)
+            //};
 
-            nodeSelectionMenuUI.BuildNodes(nodes);
+            //nodeSelectionMenuUI.BuildNodes(nodes);
             //return;
             //VisualScriptStream stream
             //    = JsonUtility.FromJson<VisualScriptStream>(serializedVisualScript.text);
@@ -97,8 +99,12 @@ namespace RuntimeVisualScripting.UI
             ILinkable bLink = aLink.GetTarget(0);
 
             Variable b = bLink as Variable;
-            OnLinkUIBeginDrag(linkByVariables[a.Id]);
-            OnLinkUIEndDrag(linkByVariables[a.Id], linkByVariables[b.Id]);
+
+            var aLinkUI = variableLinkByVariableId[a.Id];
+            var bLinkUI = variableLinkByVariableId[b.Id];
+
+            OnLinkUIBeginDrag(aLinkUI);
+            OnLinkUIEndDrag(aLinkUI, bLinkUI);
         }
         public void AddNode(Node node, Vector2 screenPosition)
         {
@@ -139,11 +145,24 @@ namespace RuntimeVisualScripting.UI
             linkLines.Remove(oldLinkLine);
         }
 
+        public void RemoveLinkLine(LinkUI fromOrTo)
+        {
+            for (int i = 0; i < linkLines.Count; i++)
+            {
+                if(linkLines[i].From == fromOrTo
+                    || linkLines[i].To == fromOrTo)
+                {
+                    var old = linkLines[i];
+                    Destroy(old.gameObject);
+                }
+            }
+        }
+
         public void OnNodeMoved(NodeUI movedNode)
         {
             for (int i = 0; i < linkLines.Count; i++)
             {
-                linkLines[i].ReCalculate(movedNode);
+                linkLines[i].ReCalculate();
             }
         }
 
@@ -158,18 +177,17 @@ namespace RuntimeVisualScripting.UI
         public void OnLinkUIBeginDrag(LinkUI pressedLinkUI)
         {
             LinkLineUI linkLineUI = null;
+            if (pressedLinkUI is VariableLinkUI)
+            {
+                VariableLinkUI variableLinkUI = pressedLinkUI as VariableLinkUI;
+                if (variableLinkUI.IsInput)
+                    linkLineUI = GetLinkLineUI(pressedLinkUI);
+                else
+                    linkLineUI = GetNewLinkLineUI();
 
-            if (pressedLinkUI is SingleLinkUI)
-                linkLineUI = GetLinkLineUI(pressedLinkUI);
-
-            else if (pressedLinkUI is MultiLinkUI)
-                linkLineUI = GetNewLinkLineUI();
-
-            //if(null != linkLineUI.From && null != linkLineUI.To)
-            //    LinkUI.DisconnectTwoWay(linkLineUI.From, linkLineUI.To);
-
-            linkLineUI.From = pressedLinkUI;
-            linkLineUI.To = null;
+                linkLineUI.From = pressedLinkUI;
+                linkLineUI.To = null;
+            }
         }
 
         public void OnLinkUIDrag(LinkUI draggedLinkUI, Vector2 screenPoint)
@@ -184,17 +202,19 @@ namespace RuntimeVisualScripting.UI
             if(null == hovered)
             {
                 Destroy(linkLineUI.gameObject);
+                return;
             }
-            else
-            {
-                linkLineUI.To = hovered;
-                ILinkable fromLinkable = from.VariableUI.Variable as ILinkable;
-                ILinkable hoveredLinkable = hovered.VariableUI.Variable as ILinkable;
 
-                fromLinkable.LinkTwoWay(hoveredLinkable);
-                //LinkUI.ConnectTwoWay(from, hovered);
+            if (false == from.CanConnection(hovered))
+            {
+                Destroy(linkLineUI.gameObject);
+                return;
             }
+
+            linkLineUI.To = hovered;
+            from.LinkTwoWay(hovered);
         }
+
 
         public LinkLineUI GetLinkLineUI(LinkUI target)
         {
@@ -226,50 +246,10 @@ namespace RuntimeVisualScripting.UI
         }
 
         public void RemoveNode(NodeUI oldNodeUI)
-        {
-            for (int i = 0; i < linkLines.Count; i++)
-            {
-                if(linkLines[i].From.ParentNodeUI == oldNodeUI)
-                {
-                    Destroy(linkLines[i].gameObject);
-                    linkLines.RemoveAt(i);
-                    i--;
-                }
-                else if (linkLines[i].To.ParentNodeUI == oldNodeUI)
-                {
-                    Destroy(linkLines[i].gameObject);
-                    linkLines.RemoveAt(i);
-                    i--;
-                }
-            }
-
+        { 
             visualScript.RemoveNode(oldNodeUI.Node);
             generatedNodeUIs.Remove(oldNodeUI);
             Destroy(oldNodeUI.gameObject);
-        }
-
-        public void AddLinkUI(LinkUI newLinkUI)
-        {
-            linkByVariables.Add(newLinkUI.VariableId, newLinkUI);
-        }
-
-        public void RemoveLinkUI(LinkUI oldLinkUI)
-        {
-            linkByVariables.Remove(oldLinkUI.VariableId);
-        }
-
-        public void UpdateLinkUIMap(LinkUI source)
-        {
-            foreach (var item in linkByVariables)
-            {
-                if(item.Value == source)
-                {
-                    linkByVariables.Remove(item.Key);
-                    break;
-                }
-            }
-
-            linkByVariables.Add(source.VariableId, source);
         }
 
         public void Clear()
@@ -289,6 +269,33 @@ namespace RuntimeVisualScripting.UI
             }
 
             visualScript.Clear();
+        }
+
+        public void UpdateVariableLink(long key, VariableLinkUI variableLinkUI)
+        {
+            foreach (var item in variableLinkByVariableId)
+            {
+                if(item.Value == variableLinkUI)
+                {
+                    variableLinkByVariableId.Remove(item.Key);
+                    break;
+                }
+            }
+
+            variableLinkByVariableId.Add(key, variableLinkUI);
+        }
+
+        public void RemoveVariableLink(VariableLinkUI variableLinkUI)
+        {
+            foreach (var item in variableLinkByVariableId)
+            {
+                if(item.Value == variableLinkUI)
+                {
+                    variableLinkByVariableId.Remove(item.Key);
+                    RemoveLinkLine(variableLinkUI);
+                    return;
+                }
+            }
         }
 
         public void OnGUI()

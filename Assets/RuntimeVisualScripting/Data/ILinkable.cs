@@ -7,7 +7,8 @@
         void UnlinkOneWay(ILinkable other);
         void UnlinkTwoWay(ILinkable other);
         ILinkable GetTarget(int index);
-        bool IsInputVaraible { get; }
+        bool IsInputVariable { get; }
         bool HasLink { get; }
+        bool AlreadyConnected(ILinkable other);
     }
 }

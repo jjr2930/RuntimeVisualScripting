@@ -31,7 +31,7 @@ namespace RuntimeVisualScripting.Data
 
         public override Type ValueType { get => typeof(T); }
 
-        public bool IsInputVaraible => false;
+        public bool IsInputVariable => false;
 
         public bool HasLink => links.Count > 0;
 
@@ -94,6 +94,11 @@ namespace RuntimeVisualScripting.Data
                 return null;
 
             return links[index];
+        }
+
+        public bool AlreadyConnected(ILinkable other)
+        {
+            return links.Contains(other);
         }
     }
 }

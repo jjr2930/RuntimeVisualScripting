@@ -9,12 +9,12 @@ namespace RuntimeVisualScripting.UI
     public class VariableUI : MonoBehaviour
     {
         [SerializeField]
-        protected LinkUI linkUI = null;
+        protected VariableLinkUI linkUI = null;
 
         [SerializeField]
         protected TextMeshProUGUI nameText = null;
 
-        public LinkUI LinkUI { get { return linkUI; } }
+        public VariableLinkUI LinkUI { get { return linkUI; } }
 
         Variable variable = null;
         public Variable Variable 
@@ -23,9 +23,8 @@ namespace RuntimeVisualScripting.UI
             set
             {
                 variable = value;
-
                 var visualScriptUI = GetComponentInParent<VisualScriptUI>();
-                visualScriptUI.UpdateLinkUIMap(LinkUI);
+                visualScriptUI.UpdateVariableLink(variable.Id, linkUI);
             }
         }
 

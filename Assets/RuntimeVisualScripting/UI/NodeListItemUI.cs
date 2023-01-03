@@ -8,27 +8,28 @@ using UnityEngine.EventSystems;
 
 namespace RuntimeVisualScripting.UI
 {
-    public class NodeSelectMenuListItemUI : DraggableObject
+    public class NodeListItemUI : DraggableObject
     {
         [SerializeField]
         Type nodeType = null;
         public Type NodeType 
         {
             get { return nodeType; }
-            set
-            {
-                nodeType = value;
-                nameText.text = NodeType.ToString();
-            }
+            set { nodeType = value; }
         }
 
         [SerializeField]
         TextMeshProUGUI nameText = null;
 
+        public void SetNameText(string text)
+        {
+            nameText.text = text;
+        }
+
         public override void OnBeginDrag(PointerEventData eventData)
         {
             base.OnBeginDrag(eventData);
-            var nodeUI = copiedTransform.GetComponent<NodeSelectMenuListItemUI>();
+            var nodeUI = copiedTransform.GetComponent<NodeListItemUI>();
             nodeUI.nodeType = this.nodeType;
         }
     }

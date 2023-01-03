@@ -13,7 +13,7 @@ namespace RuntimeVisualScripting.UI
         public override void OnDragEnd(DraggableObject obj, Vector2 screenPoint)
         {
             base.OnDragEnd(obj, screenPoint);
-            var nodeDragUI = obj.GetComponent<NodeSelectMenuListItemUI>();
+            var nodeDragUI = obj.GetComponent<NodeListItemUI>();
             var node = Activator.CreateInstance(nodeDragUI.NodeType) as Node;
             node.Initialize();
             nodeCanvas.AddNode(node, screenPoint);

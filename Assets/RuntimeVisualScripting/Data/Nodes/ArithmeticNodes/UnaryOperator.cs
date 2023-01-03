@@ -28,16 +28,19 @@ namespace RuntimeVisualScripting.Data
 
             Input.Parent = this;
             Output.Parent = this;
+
+            Input.Name = "In";
+            Output.Name = "Out";
         }
 
         public override List<Variable> GetOutputVariables()
         {
-            return new List<Variable>() { Input };
+            return new List<Variable>() { Output };
         }
 
         public override List<Variable> GetInputVariables()
         {
-            return new List<Variable>() { Output };
+            return new List<Variable>() { Input };
         }
         public override void Serialize(VisualScriptStream stream)
         {

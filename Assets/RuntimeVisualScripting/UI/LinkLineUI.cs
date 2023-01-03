@@ -75,36 +75,36 @@ namespace RuntimeVisualScripting.UI
             ReCalculate();
         }
 
-        public void ReCalculate(NodeUI movedNode)
-        {
-            bool hasFrom = null != from;
-            bool hasTo = null != to;
-            bool isMine;
+        //public void ReCalculate(NodeUI movedNode)
+        //{
+        //    bool hasFrom = null != from;
+        //    bool hasTo = null != to;
+        //    bool isMine;
 
-            //nothing to have
-            if (false == (hasFrom || hasTo))
-            {
-                return;
-            }
+        //    //nothing to have
+        //    if (false == (hasFrom || hasTo))
+        //    {
+        //        return;
+        //    }
 
-            if(false == hasFrom)
-            {
-                isMine = (movedNode == to.ParentNodeUI);
-            }
-            else if( false == hasTo)
-            {
-                isMine = movedNode == from.ParentNodeUI;
-            }
-            else
-            {
-                isMine = (movedNode == from.ParentNodeUI) || (movedNode == to.ParentNodeUI);
-            }
+        //    if(false == hasFrom)
+        //    {
+        //        isMine = (movedNode == to.ParentNodeUI);
+        //    }
+        //    else if( false == hasTo)
+        //    {
+        //        isMine = movedNode == from.ParentNodeUI;
+        //    }
+        //    else
+        //    {
+        //        isMine = (movedNode == from.ParentNodeUI) || (movedNode == to.ParentNodeUI);
+        //    }
 
-            if (false == isMine)
-                return;
+        //    if (false == isMine)
+        //        return;
 
-            ReCalculate();
-        }
+        //    ReCalculate();
+        //}
 
         public void ReCalculate()
         {

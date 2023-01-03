@@ -78,7 +78,7 @@ namespace RuntimeVisualScripting.Data
                 else if(item.Value is ILinkable)
                 {
                     ILinkable linkable = item.Value as ILinkable;
-                    if (linkable.IsInputVaraible)
+                    if (linkable.IsInputVariable)
                         onInputVariableDeserialized?.Invoke(item.Value as Variable);
                 }
             }

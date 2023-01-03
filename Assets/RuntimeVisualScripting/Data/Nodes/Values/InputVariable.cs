@@ -42,7 +42,7 @@ namespace RuntimeVisualScripting.Data
             get { return typeof(T); }
         }
 
-        public bool IsInputVaraible => true;
+        public bool IsInputVariable => true;
 
         public bool HasLink => link != null;
 
@@ -92,6 +92,11 @@ namespace RuntimeVisualScripting.Data
         public ILinkable GetTarget(int index)
         {
             return link;
+        }
+
+        public bool AlreadyConnected(ILinkable other)
+        {
+            return this.link == other;
         }
     }
 }

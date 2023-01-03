@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RuntimeVisualScripting.UI
 {
-    public class ExecutionLink : SingleLinkUI
+    public class ExecutionLink : LinkUI
     {
         public override bool CanConnection(LinkUI checkingTarget)
         {
