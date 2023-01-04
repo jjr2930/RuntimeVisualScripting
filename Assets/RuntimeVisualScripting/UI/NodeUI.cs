@@ -9,41 +9,22 @@ namespace RuntimeVisualScripting.UI
 {
     public class NodeUI : DragableUI
     {
-        [Header("References")]
+        [Header("NodeUI")]
         [SerializeField]
         protected TextMeshProUGUI title = null;
 
         [SerializeField]
         protected VisualScriptUI visualScriptUI = null;
 
-        [SerializeField]
-        protected VariableUI originInputVariable;
 
-        [SerializeField]
-        protected Transform inputContentRoot = null;
-
-        [SerializeField]
-        protected VariableUI originOutputVariable;
-
-        [SerializeField]
-        protected Transform outputContentRoot = null;
-
-        [SerializeField]
-        public List<VariableUI> inputVariableUIs = new List<VariableUI>();
-
-        [SerializeField]
-        public List<VariableUI> outputVariableUIs = new List<VariableUI>();
-
-        private Node node = null;
-        public Node Node 
+        protected Node node = null;
+        public virtual Node Node 
         {
             get => node;
             set
             {
                 node = value;
                 title.text = node.DisplayName;
-
-                BuildNode(value);
             }
         }
 
@@ -59,51 +40,7 @@ namespace RuntimeVisualScripting.UI
             visualScriptUI.OnNodeMoved(this);
         }
 
-        public virtual void BuildNode(Node node)
-        {
-            Clear();
-            var outputs = node.GetOutputVariables();
-            var inputs = node.GetInputVariables();
-
-            if (null != inputs)
-            {
-                for (int i = 0; i < inputs.Count; i++)
-                {
-                    var newInput = Instantiate(originInputVariable, inputContentRoot);
-                    newInput.gameObject.SetActive(true);
-                    newInput.Variable = inputs[i];
-                    newInput.SetName(inputs[i].Name);
-                    inputVariableUIs.Add(newInput);
-                }
-            }
-
-            if (null != outputs)
-            {
-                for (int i = 0; i < outputs.Count; i++)
-                {
-                    var newOutput = Instantiate(originOutputVariable, outputContentRoot);
-                    newOutput.gameObject.SetActive(true);
-                    newOutput.Variable = outputs[i];
-                    newOutput.SetName(outputs[i].Name);
-                    outputVariableUIs.Add(newOutput);
-                }
-            }
-        }
-
-        public void Clear()
-        {
-            while (0 < inputVariableUIs.Count)
-            {
-                Destroy(inputVariableUIs[0].gameObject);
-                inputVariableUIs.RemoveAt(0);
-            }
-
-            while(0< outputVariableUIs.Count)
-            {
-                Destroy(outputVariableUIs[0].gameObject);
-                outputVariableUIs.RemoveAt(0);
-            }
-        }
+       
 
         public void OnClickedDeleteButton()
         {

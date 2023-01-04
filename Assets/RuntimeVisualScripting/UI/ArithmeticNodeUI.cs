@@ -8,7 +8,7 @@ namespace RuntimeVisualScripting.UI
     /// <summary>
     /// ??? execution Node¶û ¶È°°Àºµ¥?
     /// </summary>
-    public class ArithmeticNodeUI : NodeUI
+    public class ArithmeticNodeUI : ParameterizedNodeUI
     {
     }
 }

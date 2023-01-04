@@ -14,16 +14,18 @@ namespace RuntimeVisualScripting.UI
         [SerializeField]
         UnityEventType eventType;
 
-        public override void BuildNode(Node node)
+        public override Node Node
         {
-            base.BuildNode(node);
-            if (false == node is UnityEventNode)
+            get => node;
+            set
             {
-                throw new NotImplementedException("wrong situation");
-            }
+                if (false == value is UnityEventNode)
+                    throw new NotImplementedException("value is not UnityEventNode");
 
-            UnityEventNode unityEventNode = node as UnityEventNode;
-            eventType = unityEventNode.EventType;
+                node = value;
+                UnityEventNode unityEventNode = node as UnityEventNode;
+                eventType = unityEventNode.EventType;
+            }
         }
 
         public override void OnDrag(PointerEventData eventData)

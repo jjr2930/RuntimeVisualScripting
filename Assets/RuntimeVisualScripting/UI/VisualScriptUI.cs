@@ -21,10 +21,10 @@ namespace RuntimeVisualScripting.UI
         List<LinkLineUI> linkLines = new List<LinkLineUI>();
 
         [SerializeField]
-        NodeUI nodeForCopy = null;
+        ExecutionNodeUI executionNodeForCopy = null;
 
         [SerializeField]
-        NodeUI arithmeticUI = null; 
+        ArithmeticNodeUI arithmeticForCopy = null; 
 
         [SerializeField]
         LinkLineUI linkLineUIForCopy = null;
@@ -70,7 +70,6 @@ namespace RuntimeVisualScripting.UI
                 {
                     StartCoroutine(OnInputVariableDeserializedDelayed(a));
                 };
-
         }
 
         public void Start()
@@ -117,10 +116,14 @@ namespace RuntimeVisualScripting.UI
         private void AddNodeUI(Node node, Vector2 screenPosition)
         {
             NodeUI newNodeUI = null;
+            
+            //TODO ±¸¸°µ¥?
             if (node is ArithmeticNode)
-                newNodeUI = Instantiate(arithmeticUI, nodeCanvasContent);
-            else
-                newNodeUI = Instantiate(nodeForCopy, nodeCanvasContent);
+                newNodeUI = Instantiate(arithmeticForCopy, nodeCanvasContent);
+            else if (node is ExecutionNode)
+                newNodeUI = Instantiate(executionNodeForCopy, nodeCanvasContent);
+            else if (node is UnityEventNode)
+                newNodeUI = Instantiate(unityEventNodeForCopy, nodeCanvasContent);
 
             newNodeUI.Node = node;
             newNodeUI.transform.position = screenPosition;
